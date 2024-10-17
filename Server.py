@@ -104,7 +104,7 @@ def main():
           seconds=token_info['expires_in'])
       st.session_state['is_authenticated'] = True
     else:
-      st.error("Failed to get access token")
+      st.error("Failed to get access token !!!")
       st.write(token_info)  # This might give more info about the error
       return
 
