@@ -95,7 +95,7 @@ def main():
 
   # Check for OAuth callback
   params = st.query_params  # Adjusted to use the new API
-  if "code" in params:
+  if "code" in params and not st.session_state['is_authenticated']:
     code = params["code"]
     token_info = get_token(code)
     st.write(token_info)
@@ -104,6 +104,7 @@ def main():
       st.session_state['token_expiry'] = datetime.now() + timedelta(
           seconds=token_info['expires_in'])
       st.session_state['is_authenticated'] = True
+      st.experimental_set_query_params()
     else:
       st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
