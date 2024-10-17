@@ -202,9 +202,10 @@ def success_page():
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
   playlist_name = []
+  playlist_photo = []
   for name in playlist_items:
     playlist_name.append(name['name'])
-  st.write(playlist_name)
+  st.write(playlist_items)
   # Extract playlist and song data
   # playlist_name = data["user_playlist"]["playlist_name"]
   # songs = data["user_playlist"]["songs"]
