@@ -2,8 +2,6 @@ import streamlit as st
 import base64
 import functions as func
 
-playlist_data = ""
-
 
 def initialiser():
   if 'logged_in' not in st.session_state:
@@ -124,7 +122,7 @@ def set_username(username):
 
 
 def set_playlist(playlists):
-  playlist_data = playlists
+  st.session_state['playlists'] = playlists
 
 
 def page_selector():
