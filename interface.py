@@ -26,7 +26,7 @@ def login_page(auth_url):
   st.markdown('<p class="subtitle">Log in to your Spotify account!</p>',
               unsafe_allow_html=True)
   # Spotify Login Button (Mock login functionality)
-  if (st.link_button('Log in with Spotify', auth_url)):
+  if (st.button('Log in with Spotify', auth_url)):
     st.success("Logging...")
     st.session_state['logged_in'] = True
     st.session_state['page'] = 'main'  # Default page after login
