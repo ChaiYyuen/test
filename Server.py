@@ -113,7 +113,9 @@ def main():
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
-      ui.sidebar(user_profile['name'])
+      ui.sidebar(user_profile['display_name'])
+    else:
+      ui.sidebar("Error")
 
     # # Artist search
     # artist_name = st.text_input("Enter an artist name")
