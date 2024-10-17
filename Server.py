@@ -145,8 +145,9 @@ def main():
 
     #User Profile
     user_profile = func.get_user_profile(token)
-    if(user_profile):
+    if (user_profile):
       st.write(f"Welcome {user_profile['display_name']}!")
+
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
@@ -159,6 +160,7 @@ def main():
             st.write(f"{idx+1}. {song['name']}")
 
     # User playlist fetch
+    st.write(func.get_user_playlists(token))
     if st.button("Fetch My Playlists"):
       playlists = get_user_playlists(token)
       if playlists:
