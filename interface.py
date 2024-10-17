@@ -118,7 +118,6 @@ def render_image(filepath: str):
 
 def login_page(auth_url):
   css()
-  initialiser()
   st.markdown(
       "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
       unsafe_allow_html=True)

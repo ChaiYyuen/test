@@ -109,7 +109,7 @@ def main():
     ui.login_page(auth_url)
   else:
     token = st.session_state['token_info']['access_token']
-
+    ui.initialiser()
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
