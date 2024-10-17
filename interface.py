@@ -201,7 +201,7 @@ def success_page():
 
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
-  playlist_name =""
+  playlist_name = ""
   for name in playlist_items:
     playlist_name = name['name']
   st.write(playlist_name)
@@ -221,8 +221,8 @@ def success_page():
   #     st.write(f"**{song['title']}**")
   #     st.image(song["photo"], width=100)  # Adjust width as needed
 
-  if st.button("Show Playlist Photo"):
-    for playlist in playlists_data['items']
-    st.subheader(f"Playlist Photo for '{playlist_name}':")
+  # if st.button("Show Playlist Photo"):
+  #   for playlist in playlists_data['items']
+  #   st.subheader(f"Playlist Photo for '{playlist_name}':")
   #   # Display the playlist photo
   #   st.image(playlist_photo, width=200)  # Adjust width as needed
