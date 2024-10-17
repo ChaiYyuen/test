@@ -54,6 +54,7 @@ def refresh_token(refresh_token):
 
 def main():
   # Initialize session state
+  ui.initialiser()
   if 'token_info' not in st.session_state:
     st.session_state['token_info'] = None
     st.session_state['is_authenticated'] = False
@@ -109,7 +110,7 @@ def main():
     ui.login_page(auth_url)
   else:
     token = st.session_state['token_info']['access_token']
-    ui.initialiser()
+
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
