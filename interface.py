@@ -4,11 +4,7 @@ import functions as func
 import json
 from openai import OpenAI
 
-# Get the API key from the environment variable
-api_key = st.secrets["OPENAI_API_KEY"]
-
-# Initialize the OpenAI client with the API key
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 
 def initialiser():
