@@ -1,90 +1,92 @@
 import streamlit as st
 import base64
 
-# Custom CSS for Spotify theme and chatbox
-st.markdown("""
-    <style>
-        body {
-            background-color: #121212;
-            color: white;
-        }
-        .title {
-            font-size: 50px;
-            color: #1DB954;
-            text-align: left;
-            font-weight: bold;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-        }
-        .subtitle {
-            font-family: 'Arial', Helvetica, sans-serif;
-            font-size: 30px;
-            color: white;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .text-input::placeholder {
-            color: #888;
-        }
-        .divider {
-            margin-top: 30px;
-            margin-bottom: 30px;
-            border: 1px solid #1DB954;
-        }
 
-        .chatbox {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 300px;
-            height: 400px;
-            background-color: #282828;
-            border: 1px solid #1DB954;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-        }
-        .chatbox-header {
-            background-color: #1DB954;
-            color: white;
-            padding: 10px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .chatbox-body {
-            flex-grow: 1;
-            padding: 10px;
-            overflow-y: auto;
-            color: white;
-            font-size: 14px;
-        }
-        .chatbox-input {
-            display: flex;
-            padding: 10px;
-        }
-        .chatbox-input input {
-            flex-grow: 1;
-            padding: 5px;
-            border: none;
-            border-radius: 5px 0 0 5px;
-            background-color: #333;
-            color: white;
-            font-size: 14px;
-        }
-        .chatbox-input button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            background-color: #1DB954;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-""",
-            unsafe_allow_html=True)
+# Custom CSS for Spotify theme and chatbox
+def css():
+  st.markdown("""
+      <style>
+          body {
+              background-color: #121212;
+              color: white;
+          }
+          .title {
+              font-size: 50px;
+              color: #1DB954;
+              text-align: left;
+              font-weight: bold;
+              font-family: 'Arial', sans-serif;
+              text-align: center;
+          }
+          .subtitle {
+              font-family: 'Arial', Helvetica, sans-serif;
+              font-size: 30px;
+              color: white;
+              text-align: center;
+              margin-top: 50px;
+          }
+          .text-input::placeholder {
+              color: #888;
+          }
+          .divider {
+              margin-top: 30px;
+              margin-bottom: 30px;
+              border: 1px solid #1DB954;
+          }
+  
+          .chatbox {
+              position: fixed;
+              bottom: 80px;
+              right: 20px;
+              width: 300px;
+              height: 400px;
+              background-color: #282828;
+              border: 1px solid #1DB954;
+              border-radius: 10px;
+              display: flex;
+              flex-direction: column;
+              z-index: 1000;
+          }
+          .chatbox-header {
+              background-color: #1DB954;
+              color: white;
+              padding: 10px;
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+              font-size: 20px;
+              font-weight: bold;
+          }
+          .chatbox-body {
+              flex-grow: 1;
+              padding: 10px;
+              overflow-y: auto;
+              color: white;
+              font-size: 14px;
+          }
+          .chatbox-input {
+              display: flex;
+              padding: 10px;
+          }
+          .chatbox-input input {
+              flex-grow: 1;
+              padding: 5px;
+              border: none;
+              border-radius: 5px 0 0 5px;
+              background-color: #333;
+              color: white;
+              font-size: 14px;
+          }
+          .chatbox-input button {
+              padding: 5px 10px;
+              border: none;
+              border-radius: 0 5px 5px 0;
+              background-color: #1DB954;
+              color: white;
+              font-size: 14px;
+              cursor: pointer;
+          }
+  """,
+              unsafe_allow_html=True)
 
 
 # image_loader.py
@@ -101,6 +103,7 @@ def render_image(filepath: str):
 
 
 def login_page(auth_url):
+  css()
   st.markdown(
       "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
       unsafe_allow_html=True)
@@ -118,6 +121,7 @@ def login_page(auth_url):
 
 
 def sidebar(username):
+  css()
   # Display the user picture at the top of the sidebar
   # st.sidebar.image(userpicture, width=100)
   st.session_state['username'] = username
