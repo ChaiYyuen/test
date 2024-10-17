@@ -255,8 +255,8 @@ def success_page():
     else:
       st.error("User data not found. Please try logging in again.")
 
-  photo, song_show = st.columns([2, 3])
   st.subheader("Songs in the Playlist:")
+  photo, song_show = st.columns([2, 3])
   song_list = songs[selected_playlist['name']]
   for song in song_list:
     with photo:
