@@ -98,7 +98,6 @@ def main():
   if "code" in params:
     code = params["code"]
     token_info = get_token(code)
-    st.write(params)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
@@ -142,6 +141,7 @@ def main():
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
+      st.write(params)
       artist = search_for_artist(token, artist_name)
       if artist:
         st.write(f"Artist found: {artist['name']}")
