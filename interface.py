@@ -212,7 +212,7 @@ def success_page():
   for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     playlist_songs = []
-    for items in playlist_tracks[]:
+    for items in playlist_tracks:
       track = items['track']
       st.write(track)
       # song_info = {
