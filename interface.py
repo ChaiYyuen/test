@@ -246,19 +246,20 @@ def success_page():
     st.image(selected_playlist['images'][0]['url'],
              width=200,
              caption="Playlist Cover")
-    
+
   # Display additional playlist info
   st.write(f"Total tracks: {selected_playlist['tracks']['total']}")
   if 'description' in selected_playlist:
     st.write(f"Description: {selected_playlist['description']}")
   else:
     st.error("User data not found. Please try logging in again.")
-  
+
   with col2:
     if st.button("Show Songs"):
       st.subheader("Songs in the Playlist:")
       song = songs[selected_playlist['name']]
       for item in song:
+        st.write(item)
         st.write(f"*{song['name']}* by {song['artists'][0]['name']}")
         # Using expander for song details to save space
         with st.expander("Show album cover"):
