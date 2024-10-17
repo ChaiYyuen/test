@@ -35,7 +35,7 @@ def get_user_playlists(token):
 
 
 def get_user_playlists_items(token, id):
-  url = f"{API_BASE_URL}me/playlists/{id}/tracks"
+  url = f"{API_BASE_URL}/playlists/{id}/tracks"
   headers = get_auth_header(token)
   result = get(url, headers=headers)
   json_result = json.loads(result.content)
