@@ -207,7 +207,7 @@ def success_page():
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
   playlist_id = [id['id'] for id in playlist_items]
-  songs = func.get_user_playlists_items(token)
+  songs = func.get_user_playlists_items(token, playlist_id[0])
   st.write(songs)
 
   st.write(playlist_id)
