@@ -124,8 +124,10 @@ def set_username(username):
 def set_playlist(playlists):
   st.session_state['playlists'] = playlists
 
-def set_playlist_songs(playlist_songs)
+
+def set_playlist_songs(playlist_songs):
   st.session_state['playlist_song'] = playlist_songs
+
 
 def page_selector():
   sidebar()
