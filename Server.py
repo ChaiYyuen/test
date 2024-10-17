@@ -6,16 +6,16 @@ import json
 from datetime import datetime, timedelta
 
 # Spotify API credentials
-CLIENT_ID = st.secrets["CLIENT_ID"]
-CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
-REDIRECT_URI = "https://genresync.streamlit.app/"  # Update this to your Streamlit app URL
+CLIENT_ID = "12b02816ea4a4038a6a383cef22a93d7"
+CLIENT_SECRET = "3e36ad4cf75a4cda9aea62808f65b921"
+REDIRECT_URI = "https://genresync.streamlit.app/"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 API_BASE_URL = "https://api.spotify.com/v1/"
 
 
-def get_token():
+def get_token(code):
   auth_string = CLIENT_ID + ":" + CLIENT_SECRET
   auth_bytes = auth_string.encode("utf-8")
   auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
@@ -24,11 +24,29 @@ def get_token():
       "Authorization": "Basic " + auth_base64,
       "Content-Type": "application/x-www-form-urlencoded"
   }
-  data = {"grant_type": "client_credentials"}
+  data = {
+      "grant_type": "authorization_code",
+      "code": code,
+      "redirect_uri": REDIRECT_URI
+  }
   result = requests.post(TOKEN_URL, headers=headers, data=data)
   json_result = json.loads(result.content)
-  token = json_result["access_token"]
-  return token
+  return json_result
+
+
+def refresh_token(refresh_token):
+  auth_string = CLIENT_ID + ":" + CLIENT_SECRET
+  auth_bytes = auth_string.encode("utf-8")
+  auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
+
+  headers = {
+      "Authorization": "Basic " + auth_base64,
+      "Content-Type": "application/x-www-form-urlencoded"
+  }
+  data = {"grant_type": "refresh_token", "refresh_token": refresh_token}
+  result = requests.post(TOKEN_URL, headers=headers, data=data)
+  json_result = json.loads(result.content)
+  return json_result
 
 
 def get_auth_header(token):
@@ -55,8 +73,8 @@ def get_songs_by_artist(token, artist_id):
   return json_result
 
 
-def get_user_playlists(token, user_id):
-  url = f"{API_BASE_URL}users/{user_id}/playlists?offset=0&limit=50&locale=en-US"
+def get_user_playlists(token):
+  url = f"{API_BASE_URL}me/playlists?limit=50"
   headers = get_auth_header(token)
   result = requests.get(url, headers=headers)
   json_result = json.loads(result.content)['items']
@@ -67,9 +85,45 @@ def get_user_playlists(token, user_id):
 
 def main():
   st.title("Spotify Artist and Playlist Explorer")
+  # Initialize session state
+  if 'token_info' not in st.session_state:
+    st.session_state['token_info'] = None
+    st.session_state['is_authenticated'] = False
+  if 'token_expiry' not in st.session_state:
+    st.session_state['token_expiry'] = None
 
-  # Check if the user is already authenticated
-  if 'access_token' not in st.session_state:
+  # Check for OAuth callback
+  params = st.query_params  # Adjusted to use the new API
+  if "code" in params:
+    code = params["code"][0]
+    token_info = get_token(code)
+    if "access_token" in token_info:
+      st.session_state['token_info'] = token_info
+      st.session_state['token_expiry'] = datetime.now() + timedelta(
+          seconds=token_info['expires_in'])
+      st.session_state['is_authenticated'] = True
+    else:
+      st.error("Failed to get access token")
+      st.write(token_info)  # This might give more info about the error
+      return
+
+  # Check if token needs refreshing
+  if st.session_state['is_authenticated']:
+    if datetime.now() >= st.session_state['token_expiry']:
+      new_token_info = refresh_token(
+          st.session_state['token_info']['refresh_token'])
+      if "access_token" in new_token_info:
+        st.session_state['token_info'] = new_token_info
+        st.session_state['token_expiry'] = datetime.now() + timedelta(
+            seconds=new_token_info['expires_in'])
+      else:
+        st.session_state['is_authenticated'] = False
+        st.error("Failed to refresh token")
+        st.write(new_token_info)  # This might give more info about the error
+        return
+
+  # Main app logic
+  if not st.session_state['is_authenticated']:
     if st.button("Login with Spotify"):
       auth_params = {
           "response_type": 'code',
@@ -80,15 +134,8 @@ def main():
       }
       auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
       st.write(f"Please login: [Spotify Login]({auth_url})")
-
-    params = st.experimental_get_query_params()
-    if 'code' in params:
-      code = params['code'][0]
-      token_info = get_token()
-      st.session_state['access_token'] = token_info
-      st.experimental_rerun()
   else:
-    token = st.session_state['access_token']
+    token = st.session_state['token_info']['access_token']
 
     # Artist search
     artist_name = st.text_input("Enter an artist name")
@@ -105,20 +152,19 @@ def main():
             st.write(f"{idx+1}. {song['name']}")
 
     # User playlist fetch
-    user_id = st.text_input("Enter a Spotify user ID to fetch playlists")
-    if user_id:
-      playlists = get_user_playlists(token, user_id)
+    if st.button("Fetch My Playlists"):
+      playlists = get_user_playlists(token)
       if playlists:
-        st.write("User's Playlists:")
+        st.write("Your Playlists:")
         for idx, playlist in enumerate(playlists):
           st.write(f"{idx+1}. {playlist['name']}")
       else:
-        st.write("No playlists found or unable to access user's playlists.")
+        st.write("No playlists found or unable to access your playlists.")
 
     if st.button("Logout"):
-      for key in list(st.session_state.keys()):
-        del st.session_state[key]
-      st.experimental_rerun()
+      st.session_state['is_authenticated'] = False
+      st.session_state['token_info'] = None
+      st.session_state['token_expiry'] = None
 
 
 if __name__ == "__main__":
