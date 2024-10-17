@@ -113,14 +113,11 @@ def main():
 
     st.session_state['logged_in'] = True
     st.session_state['page'] = 'main'
-    st.write(st.session_state)
 
     #User Profile
     user_profile = func.get_user_profile(token)
-    if (user_profile):
-      ui.sidebar(user_profile['display_name'])
-    else:
-      ui.sidebar("Error")
+    ui.set_username(user_profile['display_name'])
+    ui.page_selector()
 
     # # Artist search
     # artist_name = st.text_input("Enter an artist name")

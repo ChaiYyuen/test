@@ -116,6 +116,22 @@ def render_image(filepath: str):
   st.image(image_string)
 
 
+def set_username(username):
+  st.session_state['username'] = username
+
+
+def page_selector():
+  sidebar()
+  # if st.session_state['page'] == 'get_song_recommendations':
+  #   get_song_recommendations()
+  # elif st.session_state['page'] == 'analyze_genres':
+  #   analyze_genres()
+  # elif st.session_state['page'] == 'chat_with_bot':
+  #   chat_with_bot()
+  # else:
+  success_page()
+
+
 def login_page(auth_url):
   css()
   st.markdown(
@@ -132,11 +148,10 @@ def login_page(auth_url):
   col2.link_button('Log in with Spotify', auth_url, type='primary')
 
 
-def sidebar(username):
+def sidebar():
   css()
   # Display the user picture at the top of the sidebar
   # st.sidebar.image(userpicture, width=100)
-  st.session_state['username'] = username
   st.sidebar.title("Navigation")
   st.sidebar.write(f"Welcome, {st.session_state['username']}!")
 
@@ -166,3 +181,36 @@ def sidebar(username):
       st.session_state['page'] = 'chat_with_bot'
     else:
       st.session_state['page'] = 'main'
+
+
+def success_page():
+  # Title and content with inline CSS
+  st.markdown(
+      f"<div class='title'>Welcome, {st.session_state['username']}!</div>",
+      unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+  st.write('You have successfully logged in to Spotify.')
+  st.write(
+      "Now you can explore your Spotify playlists and analyze your music genres!"
+  )
+
+  # Extract playlist and song data
+  # playlist_name = data["user_playlist"]["playlist_name"]
+  # songs = data["user_playlist"]["songs"]
+  # playlist_photo = data["user_playlist"]["playlist_photo"]
+
+  # Display playlist name on the main page
+  # st.title(f"Playlist: {playlist_name}")
+
+  # # Create two buttons
+  # if st.button("Show Songs and Photos"):
+  #   st.subheader("Songs in the Playlist:")
+  #   # Display each song with its photo
+  #   for song in songs:
+  #     st.write(f"**{song['title']}**")
+  #     st.image(song["photo"], width=100)  # Adjust width as needed
+
+  # if st.button("Show Playlist Photo"):
+  #   st.subheader(f"Playlist Photo for '{playlist_name}':")
+  #   # Display the playlist photo
+  #   st.image(playlist_photo, width=200)  # Adjust width as needed
