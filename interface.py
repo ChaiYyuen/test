@@ -219,7 +219,7 @@ def success_page():
           'artist':
           track['artists'][0]['name'] if track['artists'] else 'Unknown',
           'album': track['album']['name'] if 'album' in track else 'Unknown',
-          'image': track['album']['image'][2]['url']
+          'image': track['album']['images'][2]['url']
       }
       playlist_songs.append(song_info)
 
