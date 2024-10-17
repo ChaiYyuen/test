@@ -97,7 +97,6 @@ def main():
   if "code" in params:
     code = params["code"]
     token_info = get_token(code)
-    st.write(token_info)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
@@ -137,16 +136,13 @@ def main():
       st.write(f"Please login: [Spotify Login]({auth_url})")
   else:
     token = st.session_state['token_info']['access_token']
-
+    st.write(token)
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
       artist = search_for_artist(token, artist_name)
       if artist:
         st.write(f"Artist found: {artist['name']}")
-        st.image(artist['images'][0]['url'] if artist['images'] else None,
-                 width=200)
-
         if st.button("Get Top Tracks"):
           songs = get_songs_by_artist(token, artist['id'])
           for idx, song in enumerate(songs):
