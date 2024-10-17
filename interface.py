@@ -20,11 +20,9 @@ def login_page(auth_url):
       "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
       unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  logo = "/pic/Spotify.png"
-  render_image("pic/Spotify.png")
   left_co, cent_co, last_co = st.columns(3)
   with cent_co:
-    st.image(logo)
+    render_image("pic/Spotify.png")
   st.markdown('<p class="subtitle">Log in to your Spotify account!</p>',
               unsafe_allow_html=True)
 
