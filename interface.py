@@ -198,7 +198,7 @@ def success_page():
   st.write(
       "Now you can explore your Spotify playlists and analyze your music genres!"
   )
-  st.write(playlist_data)
+  st.write(st.session_state['playlists'])
   # Extract playlist and song data
   # playlist_name = data["user_playlist"]["playlist_name"]
   # songs = data["user_playlist"]["songs"]
