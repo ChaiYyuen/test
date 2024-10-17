@@ -262,7 +262,7 @@ def success_page():
         st.write(f"*{song['name']}* by {song['artists'][0]['name']}")
         # Using expander for song details to save space
         with st.expander("Show album cover"):
-          st.image(song['image', width=100])
+          st.image(song['image'], width=100)
 
 
 def display_recommend(recommendations):
