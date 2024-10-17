@@ -257,10 +257,9 @@ def success_page():
   with col2:
     if st.button("Show Songs"):
       st.subheader("Songs in the Playlist:")
-      song = songs[selected_playlist['name']]
-      for item in song:
-        st.write(item)
-        st.write(f"*{song['name']}* by {song['artists'][0]['name']}")
+      song_list = songs[selected_playlist['name']]
+      for song in song_list:
+        st.write(f"*{song['name']}* by {song['artist']}")
         # Using expander for song details to save space
         with st.expander("Show album cover"):
           st.image(song['image'], width=100)
