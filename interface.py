@@ -135,8 +135,8 @@ def page_selector():
     get_song_recommendations()
   # elif st.session_state['page'] == 'analyze_genres':
   #   analyze_genres()
-  # elif st.session_state['page'] == 'chat_with_bot':
-  #   chat_with_bot()
+  elif st.session_state['page'] == 'chat_with_bot':
+    chat_with_bot()
   # else:
   success_page()
 
@@ -252,6 +252,25 @@ def success_page():
     st.error("User data not found. Please try logging in again.")
 
 
+def display_recommend(recommendations):
+  for song in recommendations['song']:
+    st.write(f"**{song['title']}** - Genre: {song['genre']}\n")
+
+
+def get_song_recommendations():
+  st.markdown(f"<div class='title'>Songs recommendation !</div>",
+              unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+  desired_tempo = st.slider("Select desired BPM (Beats per Minute)", 50, 200,
+                            100)
+  desired_sentiment = st.selectbox(
+      "Select desired Sentiment",
+      ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
+  desired_TS = (f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}")
+  recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
+  display_recommend(recommendations)
+
+
 def recommend_by_tempo_and_sentiment(desired_TS):
   system_prompt = """
   You are given a desired tempo and sentiment. Recommend at least 5 songs based on the given criteria.
@@ -281,20 +300,29 @@ def recommend_by_tempo_and_sentiment(desired_TS):
   return response.choices[0].message.content
 
 
-def display_recommend(recommendations):
-  for song in recommendations['song']:
-    st.write(f"**{song['title']}** - Genre: {song['genre']}\n")
-
-
-def get_song_recommendations():
-  st.markdown(f"<div class='title'>Songs recommendation !</div>",
+def chat_with_bot():
+  st.markdown(f"<div class='title'>Chat with Music Bot !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  desired_tempo = st.slider("Select desired BPM (Beats per Minute)", 50, 200,
-                            100)
-  desired_sentiment = st.selectbox(
-      "Select desired Sentiment",
-      ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
-  desired_TS = (f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}")
-  recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
-  display_recommend(recommendations)
+
+  st.markdown("<div class='chatbox-header'>Music Chatbot</div>",
+              unsafe_allow_html=True)
+
+  # Display chat messages from history on app rerun
+  for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+      st.markdown(message["content"])
+
+  # Chat input form
+  with st.form(key='chat_form'):
+    user_input = st.text_input("Type your message here:", key="chat_input")
+    submit_button = st.form_submit_button(label='Send')
+
+    if submit_button and user_input:
+      st.session_state.messages.append({"role": "user", "content": user_input})
+      response = get_gpt_response(user_input)
+      st.session_state.messages.append({
+          "role": "assistant",
+          "content": response
+      })
+      st.rerun()  # Rerun to refresh the chat display
