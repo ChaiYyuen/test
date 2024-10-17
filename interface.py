@@ -219,7 +219,7 @@ def success_page():
           'artist':
           track['artists'][0]['name'] if track['artists'] else 'Unknown',
           'album': track['album']['name'] if 'album' in track else 'Unknown',
-          'image': track['album']['images'][2]['url']
+          'image': track['album']['images'][0]['url']
       }
       playlist_songs.append(song_info)
 
@@ -248,21 +248,21 @@ def success_page():
              caption="Playlist Cover")
 
   # Display additional playlist info
-  st.write(f"Total tracks: {selected_playlist['tracks']['total']}")
-  if 'description' in selected_playlist:
-    st.write(f"Description: {selected_playlist['description']}")
-  else:
-    st.error("User data not found. Please try logging in again.")
-
   with col2:
-    if st.button("Show Songs"):
-      st.subheader("Songs in the Playlist:")
-      song_list = songs[selected_playlist['name']]
-      for song in song_list:
-        st.write(f"*{song['name']}* by {song['artist']}")
-        # Using expander for song details to save space
-        with st.expander("Show album cover"):
-          st.image(song['image'], width=100)
+    st.write(f"Total tracks: {selected_playlist['tracks']['total']}")
+    if 'description' in selected_playlist:
+      st.write(f"Description: {selected_playlist['description']}")
+    else:
+      st.error("User data not found. Please try logging in again.")
+
+  # photo, song_show = st.columns([2, 3])
+  st.subheader("Songs in the Playlist:")
+  song_list = songs[selected_playlist['name']]
+  for song in song_list:
+    st.write(f"*{song['name']}* by {song['artist']}")
+    # Using expander for song details to save space
+    with st.expander("Show album cover"):
+      st.image(song['image'], width=100)
 
 
 def display_recommend(recommendations):
