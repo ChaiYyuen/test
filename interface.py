@@ -111,4 +111,5 @@ def login_page(auth_url):
   st.markdown('<p class="subtitle">Log in to your Spotify account!</p>',
               unsafe_allow_html=True)
   # Spotify Login Button (Mock login functionality)
-  cent_co.link_button('Log in with Spotify', auth_url)
+  with cent_co:
+    st.link_button('Log in with Spotify', auth_url)
