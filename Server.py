@@ -117,10 +117,8 @@ def main():
     #User Profile
     user_profile = func.get_user_profile(token)
     playlists = func.get_user_playlists(token)
-    playlist_songs = func.get_user_playlists_items(token)
     ui.set_username(user_profile['display_name'])
     ui.set_playlist(playlists)
-    ui.set_playlist_songs(playlist_songs)
     ui.page_selector()
 
     if not st.session_state["logged_in"]:

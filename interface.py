@@ -2,6 +2,8 @@ import streamlit as st
 import base64
 import functions as func
 
+token = st.session_state['token_info']['access_token']
+
 
 def initialiser():
   if 'logged_in' not in st.session_state:
@@ -15,9 +17,6 @@ def initialiser():
 
   if 'page' not in st.session_state:
     st.session_state['page'] = 'main'
-
-  if 'playlist_song' not in st.session_state:
-    st.session_state['playlist_song'] = None
 
 
 # Custom CSS for Spotify theme and chatbox
@@ -128,10 +127,6 @@ def set_playlist(playlists):
   st.session_state['playlists'] = playlists
 
 
-def set_playlist_songs(playlist_songs):
-  st.session_state['playlist_song'] = playlist_songs
-
-
 def page_selector():
   sidebar()
   # if st.session_state['page'] == 'get_song_recommendations':
@@ -209,8 +204,9 @@ def success_page():
   playlists_data = st.session_state['playlists']
   playlist_songs = st.session_state['playlist_songs']
   playlist_items = playlists_data['items']
+  playlist_id = [id['id'] for id in playlist_items]
 
-  st.write(playlist_songs)
+  st.write(playlist_id)
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
 
@@ -228,9 +224,11 @@ def success_page():
 
   col1, col2 = st.columns(2)
 
+  # Show playlist cover directly
   with col1:
-    if st.button("Show Playlist Cover"):
-      st.image(selected_playlist['images'][0]['url'], width=200)
+    st.image(selected_playlist['images'][0]['url'],
+             width=200,
+             caption="Playlist Cover")
 
   with col2:
     if st.button("Show Songs"):
