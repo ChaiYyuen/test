@@ -148,7 +148,7 @@ def main():
       st.session_state['is_authenticated'] = False
       st.session_state['token_info'] = None
       st.session_state['token_expiry'] = None
-      return
+      st.rerun()
 
 
 if __name__ == "__main__":
