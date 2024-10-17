@@ -212,14 +212,15 @@ def success_page():
   for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     playlist_songs = []
-    for track in playlist_tracks['album']:
-      song_info = {
-          'name': track['name'],
-          'artist':
-          track['artists'][0]['name'] if track['artists'] else 'Unknown',
-          'album': track['album']['name'] if 'album' in track else 'Unknown'
-      }
-      playlist_songs.append(song_info)
+    for track in playlist_tracks:
+      st.write(track)
+      # song_info = {
+      #     'name': track['name'],
+      #     'artist':
+      #     track['artists'][0]['name'] if track['artists'] else 'Unknown',
+      #     'album': track['album']['name'] if 'album' in track else 'Unknown'
+      # }
+      # playlist_songs.append(song_info)
 
     songs[playlist_name] = playlist_songs
 
