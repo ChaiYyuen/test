@@ -111,7 +111,12 @@ def main():
     st.session_state['logout'] = None
     token = st.session_state['token_info']['access_token']
 
-    st.write(st.session_state)
+    if st.session_state['logout']:
+      st.session_state['is_authenticated'] = False
+      st.session_state['token_info'] = None
+      st.session_state['token_expiry'] = None
+      return
+
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
