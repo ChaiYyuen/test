@@ -128,6 +128,7 @@ def main():
     # User playlist fetch
     if st.button("Fetch My Playlists"):
       playlists = func.get_user_playlists(token)
+      st.write(playlists)
       if playlists:
         st.write("Your Playlists:")
         for idx, playlist in enumerate(playlists):
