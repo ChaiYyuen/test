@@ -97,16 +97,15 @@ def main():
 
   # Main app logic
   if not st.session_state['is_authenticated']:
-    if st.button("Login with Spotify"):
-      auth_params = {
-          "response_type": 'code',
-          "client_id": CLIENT_ID,
-          "scope": "user-read-private user-read-email playlist-read-private",
-          "redirect_uri": REDIRECT_URI,
-          "show_dialog": True
-      }
-      auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
-      ui.login_page(auth_url)
+    auth_params = {
+        "response_type": 'code',
+        "client_id": CLIENT_ID,
+        "scope": "user-read-private user-read-email playlist-read-private",
+        "redirect_uri": REDIRECT_URI,
+        "show_dialog": True
+    }
+    auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
+    ui.login_page(auth_url)
   else:
     token = st.session_state['token_info']['access_token']
 
