@@ -95,6 +95,7 @@ def main():
 
   # Check for OAuth callback
   params = st.query_params  # Adjusted to use the new API
+  st.write(params)
   if "code" in params:
     code = params["code"]
     token_info = get_token(code)
