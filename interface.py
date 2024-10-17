@@ -129,11 +129,10 @@ def login_page(auth_url):
               unsafe_allow_html=True)
   # Spotify Login Button (Mock login functionality)
   col1, col2, col3 = st.columns([1.3, 1, 1.1])
-  auth = col2.link_button('Log in with Spotify', auth_url, type='primary')
-  st.write(auth)
+  col2.link_button('Log in with Spotify', auth_url, type='primary')
   st.session_state['logged_in'] = True
   st.session_state['page'] = 'main'
-
+  st.write(st.session_state)
 
 def sidebar(username):
   css()
