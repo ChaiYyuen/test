@@ -201,12 +201,18 @@ def success_page():
 
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
-  test = [playlist['name'] for playlist in playlist_items]
-  st.write(test)
 
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
 
   # Create a selectbox for choosing a playlist
-  # playlist_names = [playlist['name'] for playlist in playlist_items]
-  # selected_playlist_name = st.selectbox("Choose a playlist", playlist_names)
+  playlist_names = [playlist['name'] for playlist in playlist_items]
+  selected_playlist_name = st.selectbox("Choose a playlist", playlist_names)
+
+  # Find the selected playlist
+  selected_playlist = next((playlist for playlist in playlist_items
+                            if playlist['name'] == selected_playlist_name),
+                           None)
+
+  if selected_playlist:
+    st.title(f"Playlist: {selected_playlist['name']}")
