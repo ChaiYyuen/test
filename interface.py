@@ -214,14 +214,14 @@ def success_page():
     playlist_songs = []
     for items in playlist_tracks:
       track = items['track']
-      st.write(track)
-      # song_info = {
-      #     'name': track['name'],
-      #     'artist':
-      #     track['artists'][0]['name'] if track['artists'] else 'Unknown',
-      #     'album': track['album']['name'] if 'album' in track else 'Unknown'
-      # }
-      # playlist_songs.append(song_info)
+      song_info = {
+          'name': track['name'],
+          'artist':
+          track['artists'][0]['name'] if track['artists'] else 'Unknown',
+          'album': track['album']['name'] if 'album' in track else 'Unknown',
+          'image': track['album']['image'][2]['url']
+      }
+      playlist_songs.append(song_info)
 
     songs[playlist_name] = playlist_songs
 
