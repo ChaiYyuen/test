@@ -255,14 +255,15 @@ def success_page():
     else:
       st.error("User data not found. Please try logging in again.")
 
-  # photo, song_show = st.columns([2, 3])
+  photo, song_show = st.columns([2, 3])
   st.subheader("Songs in the Playlist:")
   song_list = songs[selected_playlist['name']]
   for song in song_list:
-    st.write(f"*{song['name']}* by {song['artist']}")
-    # Using expander for song details to save space
-    with st.expander("Show album cover"):
+    with photo:
       st.image(song['image'], width=100)
+    with song_show:
+      st.write(f"*{song['name']}* \n\tby {song['artist']}")
+    st.divider()
 
 
 def display_recommend(recommendations):
