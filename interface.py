@@ -225,7 +225,6 @@ def success_page():
 
     songs[playlist_name] = playlist_songs
 
-  st.write(songs)
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
 
