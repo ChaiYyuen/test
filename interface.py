@@ -202,7 +202,6 @@ def success_page():
   )
 
   # Extract playlist and song data
-  st.write(playlist_data)
   # playlist_name = data["user_playlist"]["playlist_name"]
   # songs = data["user_playlist"]["songs"]
   # playlist_photo = data["user_playlist"]["playlist_photo"]

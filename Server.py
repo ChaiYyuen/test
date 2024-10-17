@@ -118,6 +118,7 @@ def main():
     user_profile = func.get_user_profile(token)
     playlists = func.get_user_playlists(token)
     ui.set_username(user_profile['display_name'])
+    st.write(playlists)
     ui.set_playlist(playlists)
     ui.page_selector()
 
