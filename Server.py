@@ -53,7 +53,6 @@ def refresh_token(refresh_token):
 
 
 def main():
-  st.title("Spotify Artist and Playlist Explorer")
   # Initialize session state
   if 'token_info' not in st.session_state:
     st.session_state['token_info'] = None

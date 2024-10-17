@@ -29,5 +29,5 @@ def login_page(auth_url):
   if (st.button('Log in with Spotify', auth_url)):
     st.success("Logging...")
     st.session_state['logged_in'] = True
-    st.session_state['page'] = 'main'  # Default page after login
-    st.rerun()  # Rerun the app after login
+    # st.session_state['page'] = 'main'  # Default page after login
+    # st.rerun()  # Rerun the app after login
