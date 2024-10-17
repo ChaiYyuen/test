@@ -259,7 +259,7 @@ def success_page():
   container, container2 = st.columns([5, 1])
   song_list = songs[selected_playlist['name']]
   for song in song_list:
-    photo, song_show = st.columns([2, 3])
+    photo, song_show = st.columns([1, 5])
     with container:
       with photo:
         st.image(song['image'], width=50)
