@@ -56,6 +56,7 @@ def get_auth_header(token):
 def search_for_artist(token, artist_name):
   url = API_BASE_URL + "search"
   headers = get_auth_header(token)
+  st.write(headers)
   query = f"?q={artist_name}&type=artist&limit=1"
   query_url = url + query
   result = requests.get(query_url, headers=headers)
@@ -136,7 +137,7 @@ def main():
       st.write(f"Please login: [Spotify Login]({auth_url})")
   else:
     token = st.session_state['token_info']['access_token']
-    st.write(token)
+
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
