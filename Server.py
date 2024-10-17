@@ -108,14 +108,7 @@ def main():
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
     ui.login_page(auth_url)
   else:
-    st.session_state['logout'] = None
     token = st.session_state['token_info']['access_token']
-
-    if st.session_state['logout']:
-      st.session_state['is_authenticated'] = False
-      st.session_state['token_info'] = None
-      st.session_state['token_expiry'] = None
-      return
 
     #User Profile
     user_profile = func.get_user_profile(token)
@@ -146,8 +139,7 @@ def main():
     #   else:
     #     st.write("No playlists found or unable to access your playlists.")
 
-    if st.button("Logout"):
-      st.session_state['logout'] = True
+    if st.session_state["logged_in"]:
       st.session_state['is_authenticated'] = False
       st.session_state['token_info'] = None
       st.session_state['token_expiry'] = None

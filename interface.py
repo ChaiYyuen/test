@@ -2,6 +2,20 @@ import streamlit as st
 import base64
 
 
+def initialiser():
+  if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+
+  if 'messages' not in st.session_state:
+    st.session_state['messages'] = []
+
+  if 'chatbox_visible' not in st.session_state:
+    st.session_state['chatbox_visible'] = False
+
+  if 'page' not in st.session_state:
+    st.session_state['page'] = 'main'
+
+
 # Custom CSS for Spotify theme and chatbox
 def css():
   st.markdown("""
@@ -104,6 +118,7 @@ def render_image(filepath: str):
 
 def login_page(auth_url):
   css()
+  initialiser()
   st.markdown(
       "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
       unsafe_allow_html=True)
@@ -125,7 +140,6 @@ def sidebar(username):
   st.write(st.session_state)
   # Display the user picture at the top of the sidebar
   # st.sidebar.image(userpicture, width=100)
-  st.session_state['logout'] = False
   st.session_state['username'] = username
   st.sidebar.title("Navigation")
   st.sidebar.write(f"Welcome, {st.session_state['username']}!")
