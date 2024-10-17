@@ -214,7 +214,7 @@ def success_page():
     playlist_songs = []
     for items in playlist_tracks:
       track = items['track']
-      st.write(items)
+      st.write(track)
       # song_info = {
       #     'name': track['name'],
       #     'artist':
