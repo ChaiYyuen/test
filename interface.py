@@ -201,29 +201,12 @@ def success_page():
 
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
-  playlist_name = []
-  playlist_photo = []
-  for name in playlist_items:
-    playlist_name.append(name['name'])
-  st.write(playlist_items)
-  # Extract playlist and song data
-  # playlist_name = data["user_playlist"]["playlist_name"]
-  # songs = data["user_playlist"]["songs"]
-  # playlist_photo = data["user_playlist"]["playlist_photo"]
+  test = [playlist['name'] for playlist in playlist_items]
+  st.write(test)
 
-  # Display playlist name on the main page
-  # st.title(f"Playlist: {playlist_name}")
+  # Display total number of playlists
+  st.subheader(f"You have {len(playlist_items)} playlists")
 
-  # # Create two buttons
-  if st.button("Show Songs and Photos"):
-    st.subheader("Songs in the Playlist:")
-  #   # Display each song with its photo
-  #   for song in songs:
-  #     st.write(f"**{song['title']}**")
-  #     st.image(song["photo"], width=100)  # Adjust width as needed
-
-  # if st.button("Show Playlist Photo"):
-  #   for playlist in playlists_data['items']
-  #   st.subheader(f"Playlist Photo for '{playlist_name}':")
-  #   # Display the playlist photo
-  #   st.image(playlist_photo, width=200)  # Adjust width as needed
+  # Create a selectbox for choosing a playlist
+  # playlist_names = [playlist['name'] for playlist in playlist_items]
+  # selected_playlist_name = st.selectbox("Choose a playlist", playlist_names)
