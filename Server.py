@@ -94,10 +94,10 @@ def main():
 
   # Check for OAuth callback
   params = st.query_params  # Adjusted to use the new API
-  st.write(params)
   if "code" in params:
     code = params["code"][0]
     token_info = get_token(code)
+    st.write(token_info)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
