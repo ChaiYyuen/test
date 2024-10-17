@@ -189,6 +189,7 @@ def sidebar():
 
 
 def success_page():
+  token = st.session_state['token_info']['access_token']
   # Title and content with inline CSS
   st.markdown(
       f"<div class='title'>Welcome, {st.session_state['username']}!</div>",
@@ -202,9 +203,9 @@ def success_page():
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
   playlist_id = [id['id'] for id in playlist_items]
-  # songs = func.get_user_playlists_items(token)
-  st.write(st.session_state)
-  
+  songs = func.get_user_playlists_items(token)
+  st.write(songs)
+
   st.write(playlist_id)
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
