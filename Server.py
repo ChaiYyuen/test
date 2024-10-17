@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 # Spotify API credentials
 CLIENT_ID = st.secrets["CLIENT_ID"]
 CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
-REDIRECT_URI = "http://genresync.streamlit.app"  # Default Streamlit local URL
+REDIRECT_URI = "http://genresync.streamlit.app/"  # Default Streamlit local URL
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
