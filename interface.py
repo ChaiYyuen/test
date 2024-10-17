@@ -1,6 +1,14 @@
 import streamlit as st
 import base64
 import functions as func
+import json
+from openai import OpenAI
+
+# Get the API key from the environment variable
+api_key = st.secrets["OPENAI_API_KEY"]
+
+# Initialize the OpenAI client with the API key
+client = OpenAI(api_key=api_key)
 
 
 def initialiser():
@@ -127,8 +135,8 @@ def set_playlist(playlists):
 
 def page_selector():
   sidebar()
-  # if st.session_state['page'] == 'get_song_recommendations':
-  #   get_song_recommendations()
+  if st.session_state['page'] == 'get_song_recommendations':
+    get_song_recommendations()
   # elif st.session_state['page'] == 'analyze_genres':
   #   analyze_genres()
   # elif st.session_state['page'] == 'chat_with_bot':
@@ -246,3 +254,51 @@ def success_page():
     st.write(f"Description: {selected_playlist['description']}")
   else:
     st.error("User data not found. Please try logging in again.")
+
+
+def recommend_by_tempo_and_sentiment(desired_TS):
+  system_prompt = """
+  You are given a desired tempo and sentiment. Recommend at least 5 songs based on the given criteria.
+  The output should be in JSON format, like this:
+  {
+  "song": [
+  {
+  "title": "Song Title 1", "genre": "Genre 1"
+  },
+  {
+  "title": "Song Title 2", "genre": "Genre 2"
+  },
+  ...
+  ]
+  }
+  """
+
+  response = client.chat.completions.create(model='gpt-4',
+                                            messages=[{
+                                                'role': 'system',
+                                                'content': system_prompt
+                                            }, {
+                                                'role': 'user',
+                                                'content': desired_TS
+                                            }],
+                                            max_tokens=2000)
+  return response.choices[0].message.content
+
+
+def display_recommend(recommendations):
+  for song in recommendations['song']:
+    st.write(f"**{song['title']}** - Genre: {song['genre']}\n")
+
+
+def get_song_recommendations():
+  st.markdown(f"<div class='title'>Songs recommendation !</div>",
+              unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+  desired_tempo = st.slider("Select desired BPM (Beats per Minute)", 50, 200,
+                            100)
+  desired_sentiment = st.selectbox(
+      "Select desired Sentiment",
+      ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
+  desired_TS = (f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}")
+  recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
+  display_recommend(recommendations)
