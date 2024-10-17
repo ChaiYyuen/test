@@ -16,6 +16,9 @@ def initialiser():
   if 'page' not in st.session_state:
     st.session_state['page'] = 'main'
 
+  if 'playlist_song' not in st.session_state:
+    st.session_state['playlist_song'] = None
+
 
 # Custom CSS for Spotify theme and chatbox
 def css():
