@@ -4,15 +4,40 @@ import urllib.parse
 import base64
 import json
 from datetime import datetime, timedelta
+from random import choice
+import string
 
 # Spotify API credentials
-CLIENT_ID = "12b02816ea4a4038a6a383cef22a93d7"
-CLIENT_SECRET = "3e36ad4cf75a4cda9aea62808f65b921"
+CLIENT_ID = st.secrets["CLIENT_ID"]
+CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
 REDIRECT_URI = "https://genresync.streamlit.app/"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 API_BASE_URL = "https://api.spotify.com/v1/"
+
+
+def generate_random_string(length):
+  return ''.join(
+      choice(string.ascii_letters + string.digits) for _ in range(length))
+
+
+def get_authorization_url():
+  """Construct the Spotify authorization URL."""
+  state = generate_random_string(16)
+  scope = "user-read-private user-read-email"
+
+  query_params = {
+      "response_type": "code",
+      "client_id": CLIENT_ID,
+      "scope": scope,
+      "redirect_uri": REDIRECT_URI,
+      "state": state
+  }
+
+  # Building the URL for Spotify authorization
+  auth_url = AUTH_URL + urllib.parse.urlencode(query_params)
+  return auth_url
 
 
 def get_token(code):
@@ -83,8 +108,12 @@ def get_user_playlists(token):
   return json_result
 
 
+auth_url = get_authorization_url
+
+
 def main():
   st.title("Spotify Artist and Playlist Explorer")
+  st.write(auth_url)
   # Initialize session state
   if 'token_info' not in st.session_state:
     st.session_state['token_info'] = None
@@ -125,14 +154,6 @@ def main():
   # Main app logic
   if not st.session_state['is_authenticated']:
     if st.button("Login with Spotify"):
-      auth_params = {
-          "response_type": 'code',
-          "client_id": CLIENT_ID,
-          "scope": "user-read-private user-read-email playlist-read-private",
-          "redirect_uri": REDIRECT_URI,
-          "show_dialog": True
-      }
-      auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
       st.write(f"Please login: [Spotify Login]({auth_url})")
   else:
     token = st.session_state['token_info']['access_token']
