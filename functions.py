@@ -25,7 +25,7 @@ def get_user_playlists(token):
   url = f"{API_BASE_URL}me/playlists?limit=50"
   headers = get_auth_header(token)
   result = get(url, headers=headers)
-  json_result = json.loads(result.content)
+  json_result = json.loads(result.content)["items"]
   if len(json_result) == 0:
     return None
   return json_result
