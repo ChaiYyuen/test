@@ -5,6 +5,8 @@ import base64
 import json
 from datetime import datetime, timedelta
 
+import functions as func
+
 # Spotify API credentials
 CLIENT_ID = st.secrets["CLIENT_ID"]
 CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
@@ -141,6 +143,10 @@ def main():
   else:
     token = st.session_state['token_info']['access_token']
 
+    #User Profile
+    user_profile = func.get_user_profile(token)
+    if (user_profile):
+      st.write(user_profile)
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
