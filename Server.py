@@ -100,7 +100,6 @@ def main():
   if "code" in params and not st.session_state['callback_processed']:
     code = params["code"]
     token_info = get_token(code)
-    st.write(token_info)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
