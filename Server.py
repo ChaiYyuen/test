@@ -8,14 +8,14 @@ from datetime import datetime, timedelta
 # Spotify API credentials
 CLIENT_ID = st.secrets["CLIENT_ID"]
 CLIENT_SECRET = st.secrets["CLIENT_SECRET"]
-REDIRECT_URI = "https://genresync.streamlit.app/"
+REDIRECT_URI = "https://genresync.streamlit.app/callback"
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 API_BASE_URL = "https://api.spotify.com/v1/"
 
 
-def get_token():
+def get_token(code):
   auth_string = CLIENT_ID + ":" + CLIENT_SECRET
   auth_bytes = auth_string.encode("utf-8")
   auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
@@ -26,7 +26,7 @@ def get_token():
   }
   data = {
       "grant_type": "authorization_code",
-      "code": 'code',
+      "code": code,
       "redirect_uri": REDIRECT_URI
   }
   result = requests.post(TOKEN_URL, headers=headers, data=data)
@@ -95,8 +95,9 @@ def main():
   # Check for OAuth callback
   params = st.query_params  # Adjusted to use the new API
   if "code" in params:
+    st.write(params)
     code = params["code"][0]
-    token_info = get_token()
+    token_info = get_token(code)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
