@@ -97,15 +97,15 @@ def main():
   params = st.query_params  # Adjusted to use the new API
   if "code" in params:
     code = params["code"]
-    st.write(params)
     token_info = get_token(code)
+    st.write(params)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
           seconds=token_info['expires_in'])
       st.session_state['is_authenticated'] = True
     else:
-      st.error("Failed to get access token !!!")
+      st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
       return
 
