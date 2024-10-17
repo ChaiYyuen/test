@@ -41,7 +41,7 @@ def get_user_playlists_items(token, id):
   json_result = json.loads(result.content)
   if len(json_result) == 0:
     return None
-  return result
+  return json_result
 
 
 def search_for_artist(token, artist_name):
