@@ -5,7 +5,7 @@ import base64
 st.markdown("""
     <style>
         body {
-            background-color: aqua;
+            background-color: #121212;
             color: white;
         }
         .title {
@@ -113,3 +113,4 @@ def login_page(auth_url):
   # Spotify Login Button (Mock login functionality)
   col1, col2, col3 = st.columns([1.3, 1, 1.1])
   col2.link_button('Log in with Spotify', auth_url, type='primary')
+  st.session_state['logged_in'] = True

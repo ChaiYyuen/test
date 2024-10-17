@@ -78,6 +78,8 @@ def main():
       st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
       return
+  elif 'error' in params:
+    st.rerun()
 
   # Check if token needs refreshing
   if st.session_state['is_authenticated']:
