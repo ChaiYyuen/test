@@ -175,14 +175,11 @@ def sidebar():
 
     # Use a selectbox to persist the state across reruns
     page_selection = st.sidebar.selectbox(
-        "Select a page",
-        ("Main page", "View Playlists", "Get Song Recommendations",
-         "Analyze Genres", "Chat with the Bot"))
+        "Select a page", ("Main page", "Get Song Recommendations",
+                          "Analyze Genres", "Chat with the Bot"))
 
     # Set session state page based on selection
-    if page_selection == "View Playlists":
-      st.session_state['page'] = 'view_playlists'
-    elif page_selection == "Get Song Recommendations":
+    if page_selection == "Get Song Recommendations":
       st.session_state['page'] = 'get_song_recommendations'
     elif page_selection == "Analyze Genres":
       st.session_state['page'] = 'analyze_genres'
