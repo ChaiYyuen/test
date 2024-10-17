@@ -107,6 +107,7 @@ def main():
     }
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
     ui.login_page(auth_url)
+    st.session_state['logout'] = False
   else:
     token = st.session_state['token_info']['access_token']
 
