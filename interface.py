@@ -135,7 +135,6 @@ def sidebar(username):
     st.session_state['messages'] = []  # Clear chat messages
     st.session_state['chatbox_visible'] = False
     st.session_state['page'] = 'main'  # Reset page on logout
-    return True
 
   else:
     st.sidebar.markdown('---')
