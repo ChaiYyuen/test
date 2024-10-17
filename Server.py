@@ -111,6 +111,10 @@ def main():
   else:
     token = st.session_state['token_info']['access_token']
 
+    st.session_state['logged_in'] = True
+    st.session_state['page'] = 'main'
+    st.write(st.session_state)
+
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
