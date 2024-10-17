@@ -51,40 +51,6 @@ def refresh_token(refresh_token):
   return json_result
 
 
-def get_auth_header(token):
-  return {"Authorization": "Bearer " + token}
-
-
-def search_for_artist(token, artist_name):
-  url = API_BASE_URL + "search"
-  headers = get_auth_header(token)
-  query = f"?q={artist_name}&type=artist&limit=1"
-  query_url = url + query
-  result = requests.get(query_url, headers=headers)
-  json_result = json.loads(result.content)["artists"]["items"]
-  if len(json_result) == 0:
-    return None
-  return json_result[0]
-
-
-def get_songs_by_artist(token, artist_id):
-  url = f"{API_BASE_URL}artists/{artist_id}/top-tracks?market=US"
-  headers = get_auth_header(token)
-  result = requests.get(url, headers=headers)
-  json_result = json.loads(result.content)["tracks"]
-  return json_result
-
-
-def get_user_playlists(token):
-  url = f"{API_BASE_URL}me/playlists?limit=50"
-  headers = get_auth_header(token)
-  result = requests.get(url, headers=headers)
-  json_result = json.loads(result.content)['items']
-  if len(json_result) == 0:
-    return None
-  return json_result
-
-
 def main():
   st.title("Spotify Artist and Playlist Explorer")
   # Initialize session state
@@ -151,18 +117,17 @@ def main():
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
-      artist = search_for_artist(token, artist_name)
+      artist = func.search_for_artist(token, artist_name)
       if artist:
         st.write(f"Artist found: {artist['name']}")
         if st.button("Get Top Tracks"):
-          songs = get_songs_by_artist(token, artist['id'])
+          songs = func.get_songs_by_artist(token, artist['id'])
           for idx, song in enumerate(songs):
             st.write(f"{idx+1}. {song['name']}")
 
     # User playlist fetch
-    st.write(func.get_user_playlists(token))
     if st.button("Fetch My Playlists"):
-      playlists = get_user_playlists(token)
+      playlists = func.get_user_playlists(token)
       if playlists:
         st.write("Your Playlists:")
         for idx, playlist in enumerate(playlists):

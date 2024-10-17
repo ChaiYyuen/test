@@ -32,3 +32,23 @@ def get_user_playlists(token):
   """
   eg: playlist["name"]
   """
+
+
+def search_for_artist(token, artist_name):
+  url = API_BASE_URL + "search"
+  headers = get_auth_header(token)
+  query = f"?q={artist_name}&type=artist&limit=1"
+  query_url = url + query
+  result = get(query_url, headers=headers)
+  json_result = json.loads(result.content)["artists"]["items"]
+  if len(json_result) == 0:
+    return None
+  return json_result[0]
+
+
+def get_songs_by_artist(token, artist_id):
+  url = f"{API_BASE_URL}artists/{artist_id}/top-tracks?market=US"
+  headers = get_auth_header(token)
+  result = get(url, headers=headers)
+  json_result = json.loads(result.content)["tracks"]
+  return json_result
