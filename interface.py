@@ -209,19 +209,21 @@ def success_page():
   playlist_ids = [id['id'] for id in playlist_items]
   playlist_names = [playlist['name'] for playlist in playlist_items]
   songs = {}
-  # for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
-  #   playlist_songs = []
-  #   song_info = {
-  #       'name': track['name'],
-  #       'artist':
-  #       track['artists'][0]['name'] if track['artists'] else 'Unknown',
-  #       'album': track['album']['name'] if 'album' in track else 'Unknown'
-  #   }
-  #   playlist_songs.append(song_info)
+  for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
+    playlist_tracks = func.get_user_playlists_items(token, playlist_id)
+    playlist_songs = []
+    for track in playlist_tracks:
+      song_info = {
+          'name': track['name'],
+          'artist':
+          track['artists'][0]['name'] if track['artists'] else 'Unknown',
+          'album': track['album']['name'] if 'album' in track else 'Unknown'
+      }
+      playlist_songs.append(song_info)
 
-  #   songs[playlist_name] = playlist_songs
+    songs[playlist_name] = playlist_songs
 
-  st.write(func.get_user_playlists_items(token, playlist_ids[0]))
+  st.write(songs)
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
 
