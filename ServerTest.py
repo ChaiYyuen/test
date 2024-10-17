@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 # Spotify API credentials
 CLIENT_ID = "12b02816ea4a4038a6a383cef22a93d7"
 CLIENT_SECRET = "3e36ad4cf75a4cda9aea62808f65b921"
-REDIRECT_URI = "http://localhost:8501/"
+REDIRECT_URI = "https://genresync1.streamlit.app/"
 
 AUTH_URL = "https://accounts.spotify.com/authorize?"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
