@@ -86,6 +86,13 @@ def get_user_playlists(token):
 def main():
   st.title("Spotify Artist and Playlist Explorer")
 
+  # Initialize session state
+  if 'token_info' not in st.session_state:
+    st.session_state['token_info'] = None
+    st.session_state['is_authenticated'] = False
+  if 'token_expiry' not in st.session_state:
+    st.session_state['token_expiry'] = None
+
   # Check for OAuth callback
   params = st.experimental_get_query_params()
   if "code" in params:
@@ -95,16 +102,14 @@ def main():
       st.session_state['token_info'] = token_info
       st.session_state['token_expiry'] = datetime.now() + timedelta(
           seconds=token_info['expires_in'])
-      # Clear URL parameters
-      st.experimental_set_query_params()
-      st.experimental_rerun()
+      st.session_state['is_authenticated'] = True
     else:
       st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
       return
 
   # Check if token needs refreshing
-  if 'token_info' in st.session_state and 'token_expiry' in st.session_state:
+  if st.session_state['is_authenticated']:
     if datetime.now() >= st.session_state['token_expiry']:
       new_token_info = refresh_token(
           st.session_state['token_info']['refresh_token'])
@@ -113,12 +118,13 @@ def main():
         st.session_state['token_expiry'] = datetime.now() + timedelta(
             seconds=new_token_info['expires_in'])
       else:
+        st.session_state['is_authenticated'] = False
         st.error("Failed to refresh token")
         st.write(new_token_info)  # This might give more info about the error
         return
 
   # Main app logic
-  if 'token_info' not in st.session_state:
+  if not st.session_state['is_authenticated']:
     if st.button("Login with Spotify"):
       auth_params = {
           "response_type": 'code',
@@ -157,9 +163,9 @@ def main():
         st.write("No playlists found or unable to access your playlists.")
 
     if st.button("Logout"):
-      for key in list(st.session_state.keys()):
-        del st.session_state[key]
-      st.experimental_rerun()
+      st.session_state['is_authenticated'] = False
+      st.session_state['token_info'] = None
+      st.session_state['token_expiry'] = None
 
 
 if __name__ == "__main__":
