@@ -4,8 +4,8 @@ import urllib.parse
 from datetime import datetime, timedelta
 
 # Spotify API credentials
-CLIENT_ID = "your_client_id"
-CLIENT_SECRET = "your_client_secret"
+CLIENT_ID = st.secrets['CLIENT_ID']
+CLIENT_SECRET = st.secrets['CLIENT_SECRET']
 REDIRECT_URI = "https://genresync.streamlit.app/"  # Updated to match your Streamlit app URL
 
 AUTH_URL = "https://accounts.spotify.com/authorize"
