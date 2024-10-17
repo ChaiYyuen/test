@@ -144,7 +144,7 @@ def main():
     #   else:
     #     st.write("No playlists found or unable to access your playlists.")
 
-    if st.session_state["logged_in"]:
+    if not st.session_state["logged_in"]:
       st.session_state['is_authenticated'] = False
       st.session_state['token_info'] = None
       st.session_state['token_expiry'] = None
