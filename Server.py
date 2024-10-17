@@ -107,13 +107,8 @@ def main():
     }
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
     ui.login_page(auth_url)
-    st.session_state['logout'] = False
   else:
     token = st.session_state['token_info']['access_token']
-
-    if st.session_state['logout']:
-      st.session_state['logout'] = False
-      return
 
     #User Profile
     user_profile = func.get_user_profile(token)

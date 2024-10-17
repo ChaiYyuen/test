@@ -120,11 +120,12 @@ def login_page(auth_url):
   st.session_state['page'] = 'main'
 
 
-def sidebar(username, logout):
+def sidebar(username):
   css()
   st.write(st.session_state)
   # Display the user picture at the top of the sidebar
   # st.sidebar.image(userpicture, width=100)
+  st.session_state['logout'] = False
   st.session_state['username'] = username
   st.sidebar.title("Navigation")
   st.sidebar.write(f"Welcome, {st.session_state['username']}!")
@@ -134,6 +135,7 @@ def sidebar(username, logout):
     st.session_state['messages'] = []  # Clear chat messages
     st.session_state['chatbox_visible'] = False
     st.session_state['page'] = 'main'  # Reset page on logout
+    return True
 
   else:
     st.sidebar.markdown('---')
