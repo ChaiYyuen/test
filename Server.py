@@ -92,10 +92,12 @@ def main():
     st.session_state['is_authenticated'] = False
   if 'token_expiry' not in st.session_state:
     st.session_state['token_expiry'] = None
+  if 'callback_processed' not in st.session_state:
+    st.session_state['callback_processed'] = False
 
   # Check for OAuth callback
   params = st.query_params  # Adjusted to use the new API
-  if "code" in params and not st.session_state['is_authenticated']:
+  if "code" in params and not st.session_state['callback_processed']:
     code = params["code"]
     token_info = get_token(code)
     st.write(token_info)
@@ -104,7 +106,8 @@ def main():
       st.session_state['token_expiry'] = datetime.now() + timedelta(
           seconds=token_info['expires_in'])
       st.session_state['is_authenticated'] = True
-      st.experimental_set_query_params()
+      st.session_state[
+          'callback_processed'] = True  # Mark callback as processed
     else:
       st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
