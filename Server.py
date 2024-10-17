@@ -6,6 +6,7 @@ import json
 from datetime import datetime, timedelta
 
 import functions as func
+import interface as ui
 
 # Spotify API credentials
 CLIENT_ID = st.secrets["CLIENT_ID"]
@@ -105,7 +106,7 @@ def main():
           "show_dialog": True
       }
       auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(auth_params)}"
-      st.write(f"Please login: [Spotify Login]({auth_url})")
+      ui.login_page(auth_url)
   else:
     token = st.session_state['token_info']['access_token']
 
@@ -140,6 +141,7 @@ def main():
       st.session_state['is_authenticated'] = False
       st.session_state['token_info'] = None
       st.session_state['token_expiry'] = None
+      return
 
 
 if __name__ == "__main__":
