@@ -1,5 +1,8 @@
 import streamlit as st
 import base64
+import functions as func
+
+playlist_data = ""
 
 
 def initialiser():
@@ -120,6 +123,10 @@ def set_username(username):
   st.session_state['username'] = username
 
 
+def set_playlist(playlists):
+  playlist_data = playlists
+
+
 def page_selector():
   sidebar()
   # if st.session_state['page'] == 'get_song_recommendations':
@@ -195,6 +202,7 @@ def success_page():
   )
 
   # Extract playlist and song data
+  st.write(playlist_data)
   # playlist_name = data["user_playlist"]["playlist_name"]
   # songs = data["user_playlist"]["songs"]
   # playlist_photo = data["user_playlist"]["playlist_photo"]
@@ -203,8 +211,8 @@ def success_page():
   # st.title(f"Playlist: {playlist_name}")
 
   # # Create two buttons
-  # if st.button("Show Songs and Photos"):
-  #   st.subheader("Songs in the Playlist:")
+  if st.button("Show Songs and Photos"):
+    st.subheader("Songs in the Playlist:")
   #   # Display each song with its photo
   #   for song in songs:
   #     st.write(f"**{song['title']}**")
