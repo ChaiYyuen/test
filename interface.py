@@ -202,7 +202,6 @@ def success_page():
   )
 
   playlists_data = st.session_state['playlists']
-  playlist_songs = st.session_state['playlist_songs']
   playlist_items = playlists_data['items']
   playlist_id = [id['id'] for id in playlist_items]
 
