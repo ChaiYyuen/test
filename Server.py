@@ -56,7 +56,6 @@ def get_auth_header(token):
 def search_for_artist(token, artist_name):
   url = API_BASE_URL + "search"
   headers = get_auth_header(token)
-  st.write(headers)
   query = f"?q={artist_name}&type=artist&limit=1"
   query_url = url + query
   result = requests.get(query_url, headers=headers)
