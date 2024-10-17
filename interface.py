@@ -208,7 +208,7 @@ def success_page():
   playlist_items = playlists_data['items']
   playlist_id = [id['id'] for id in playlist_items]
   songs = func.get_user_playlists_items(token, "35OHCwJ9yWbv3rrhIyA3jY")
-  st.write(songs)
+  st.write(token)
 
   st.write(playlist_id)
   # Display total number of playlists
