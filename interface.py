@@ -288,7 +288,7 @@ def recommend_by_tempo_and_sentiment(desired_TS):
   }
   """
 
-  response = client.chat.completions.create(model='gpt-4',
+  response = client.chat.completions.create(model='gpt-4o-mini',
                                             messages=[{
                                                 'role': 'system',
                                                 'content': system_prompt
@@ -332,7 +332,7 @@ def get_gpt_response(prompt):
   system_prompt = """
   You are a professional in music. Answer anything asked related to music and songs. Otherwise reply 'Sorry, I can't help you with that. Try asking something related to music.'
   """
-  response = client.chat.completions.create(model='gpt-4',
+  response = client.chat.completions.create(model='gpt-4o-mini',
                                             messages=[{
                                                 'role': 'system',
                                                 'content': system_prompt
