@@ -145,7 +145,8 @@ def main():
 
     #User Profile
     user_profile = func.get_user_profile(token)
-    st.write(user_profile)
+    if(user_profile):
+      st.write(f"Welcome {user_profile['display_name']}!")
     # Artist search
     artist_name = st.text_input("Enter an artist name")
     if artist_name:
