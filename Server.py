@@ -113,29 +113,29 @@ def main():
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
-      st.write(f"Welcome {user_profile['display_name']}!")
+      ui.sidebar(user_profile['name'])
 
-    # Artist search
-    artist_name = st.text_input("Enter an artist name")
-    if artist_name:
-      artist = func.search_for_artist(token, artist_name)
-      if artist:
-        st.write(f"Artist found: {artist['name']}")
-        if st.button("Get Top Tracks"):
-          songs = func.get_songs_by_artist(token, artist['id'])
-          for idx, song in enumerate(songs):
-            st.write(f"{idx+1}. {song['name']}")
+    # # Artist search
+    # artist_name = st.text_input("Enter an artist name")
+    # if artist_name:
+    #   artist = func.search_for_artist(token, artist_name)
+    #   if artist:
+    #     st.write(f"Artist found: {artist['name']}")
+    #     if st.button("Get Top Tracks"):
+    #       songs = func.get_songs_by_artist(token, artist['id'])
+    #       for idx, song in enumerate(songs):
+    #         st.write(f"{idx+1}. {song['name']}")
 
-    # User playlist fetch
-    if st.button("Fetch My Playlists"):
-      playlists = func.get_user_playlists(token)
-      st.write(playlists)
-      if playlists:
-        st.write("Your Playlists:")
-        for idx, playlist in enumerate(playlists):
-          st.write(f"{idx+1}. {playlist['name']}")
-      else:
-        st.write("No playlists found or unable to access your playlists.")
+    # # User playlist fetch
+    # if st.button("Fetch My Playlists"):
+    #   playlists = func.get_user_playlists(token)
+    #   st.write(playlists)
+    #   if playlists:
+    #     st.write("Your Playlists:")
+    #     for idx, playlist in enumerate(playlists):
+    #       st.write(f"{idx+1}. {playlist['name']}")
+    #   else:
+    #     st.write("No playlists found or unable to access your playlists.")
 
     if st.button("Logout"):
       st.session_state['is_authenticated'] = False

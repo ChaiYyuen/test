@@ -114,3 +114,40 @@ def login_page(auth_url):
   col1, col2, col3 = st.columns([1.3, 1, 1.1])
   col2.link_button('Log in with Spotify', auth_url, type='primary')
   st.session_state['logged_in'] = True
+  st.session_state['page'] = 'main'
+
+
+def sidebar(username):
+  # Display the user picture at the top of the sidebar
+  # st.sidebar.image(userpicture, width=100)
+  st.session_state['username'] = username
+  st.sidebar.title("Navigation")
+  st.sidebar.write(f"Welcome, {st.session_state['username']}!")
+
+  if st.sidebar.button('Log out'):
+    st.session_state['logged_in'] = False
+    st.session_state['messages'] = []  # Clear chat messages
+    st.session_state['chatbox_visible'] = False
+    st.session_state['page'] = 'main'  # Reset page on logout
+    st.rerun()  # Rerun to reflect changes
+
+  else:
+    st.sidebar.markdown('---')
+
+    # Use a selectbox to persist the state across reruns
+    page_selection = st.sidebar.selectbox(
+        "Select a page",
+        ("Main page", "View Playlists", "Get Song Recommendations",
+         "Analyze Genres", "Chat with the Bot"))
+
+    # Set session state page based on selection
+    if page_selection == "View Playlists":
+      st.session_state['page'] = 'view_playlists'
+    elif page_selection == "Get Song Recommendations":
+      st.session_state['page'] = 'get_song_recommendations'
+    elif page_selection == "Analyze Genres":
+      st.session_state['page'] = 'analyze_genres'
+    elif page_selection == "Chat with the Bot":
+      st.session_state['page'] = 'chat_with_bot'
+    else:
+      st.session_state['page'] = 'main'
