@@ -137,8 +137,8 @@ def page_selector():
   #   analyze_genres()
   elif st.session_state['page'] == 'chat_with_bot':
     chat_with_bot()
-  # else:
-  success_page()
+  else:
+    success_page()
 
 
 def login_page(auth_url):
@@ -326,3 +326,19 @@ def chat_with_bot():
           "content": response
       })
       st.rerun()  # Rerun to refresh the chat display
+
+
+def get_gpt_response(prompt):
+  system_prompt = """
+  You are a professional in music. Answer anything asked related to music and songs. Otherwise reply 'Sorry, I can't help you with that. Try asking something related to music.'
+  """
+  response = client.chat.completions.create(model='gpt-4',
+                                            messages=[{
+                                                'role': 'system',
+                                                'content': system_prompt
+                                            }, {
+                                                'role': 'user',
+                                                'content': prompt
+                                            }],
+                                            max_tokens=150)
+  return response.choices[0].message.content
