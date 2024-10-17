@@ -102,13 +102,13 @@ def render_image(filepath: str):
 
 
 def login_page(auth_url):
+  st.markdown(
+      "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
+      unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   with cent_co:
-    st.markdown(
-        "<div class='title'>GenreSync: Tune in to Musical Diversity</div>",
-        unsafe_allow_html=True)
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
     render_image("pic/Spotify.png")
-    st.markdown('<p class="subtitle">Log in to your Spotify account!</p>',
-                unsafe_allow_html=True)
-    # Spotify Login Button (Mock login functionality)
-    st.link_button('Log in with Spotify', auth_url)
+  st.markdown('<p class="subtitle">Log in to your Spotify account!</p>',
+              unsafe_allow_html=True)
+  # Spotify Login Button (Mock login functionality)
+  st.link_button('Log in with Spotify', auth_url)
