@@ -96,7 +96,6 @@ def main():
   params = st.query_params  # Adjusted to use the new API
   if "code" in params:
     code = params["code"]
-    st.write(code)
     token_info = get_token(code)
     if "access_token" in token_info:
       st.session_state['token_info'] = token_info
