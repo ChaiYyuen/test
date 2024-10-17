@@ -120,8 +120,9 @@ def login_page(auth_url):
   st.session_state['page'] = 'main'
 
 
-def sidebar(username):
+def sidebar(username, logout):
   css()
+  st.write(st.session_state)
   # Display the user picture at the top of the sidebar
   # st.sidebar.image(userpicture, width=100)
   st.session_state['username'] = username
@@ -133,7 +134,6 @@ def sidebar(username):
     st.session_state['messages'] = []  # Clear chat messages
     st.session_state['chatbox_visible'] = False
     st.session_state['page'] = 'main'  # Reset page on logout
-    st.rerun()  # Rerun to reflect changes
 
   else:
     st.sidebar.markdown('---')

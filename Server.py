@@ -110,6 +110,10 @@ def main():
   else:
     token = st.session_state['token_info']['access_token']
 
+    if st.session_state['logout']:
+      st.session_state['logout'] = False
+      return
+
     #User Profile
     user_profile = func.get_user_profile(token)
     if (user_profile):
@@ -140,6 +144,7 @@ def main():
     #     st.write("No playlists found or unable to access your playlists.")
 
     if st.button("Logout"):
+      st.session_state['logout'] = True
       st.session_state['is_authenticated'] = False
       st.session_state['token_info'] = None
       st.session_state['token_expiry'] = None
