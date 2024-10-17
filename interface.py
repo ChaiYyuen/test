@@ -5,7 +5,7 @@ import base64
 st.markdown("""
     <style>
         body {
-            background-color: #121212;
+            background-color: aqua;
             color: white;
         }
         .title {
