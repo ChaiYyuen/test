@@ -124,6 +124,8 @@ def set_username(username):
 def set_playlist(playlists):
   st.session_state['playlists'] = playlists
 
+def set_playlist_songs(playlist_songs)
+  st.session_state['playlist_song'] = playlist_songs
 
 def page_selector():
   sidebar()
@@ -200,8 +202,10 @@ def success_page():
   )
 
   playlists_data = st.session_state['playlists']
+  playlist_songs = st.session_state['playlist_songs']
   playlist_items = playlists_data['items']
 
+  st.write(playlist_songs)
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
 
