@@ -391,6 +391,16 @@ files = [
 all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
 
 [[package]]
+name = "imageloader"
+version = "0.0.5"
+description = "An image loader library which provides a subset of PIL interface."
+optional = false
+python-versions = "*"
+files = [
+    {file = "imageloader-0.0.5.tar.gz", hash = "sha256:7820951a0051f238c799bf1b6472ad200d386ceaf0607bfaea480d75d5d4ef37"},
+]
+
+[[package]]
 name = "jinja2"
 version = "3.1.4"
 description = "A very fast and expressive template engine."
@@ -1636,4 +1646,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.12"
-content-hash = "ea278ac28a9cc5203bb40c93d23fc9f1f9e8a19cc4fb63244ae2bce776bbc1cf"
+content-hash = "2c3cef24b4f9f84592c4abb8fab1270874dd1b092531d55837a43d00fd8b46ac"
