@@ -213,18 +213,18 @@ def success_page():
 
 
 def get_ai_recommendations():
-  user_data = st.session_state['user_data']
+  user_data = st.session_state['playlists']
   if not user_data:
     st.error("User data not found. Please try logging in again.")
     return
 
   # Extract genres from user's playlists
-  user_genres = set()
-  for playlist in user_data['playlists']:
-    for item in playlist['tracks']['items']:
-      # Assuming each song has a 'genre' field. If not, you might need to fetch this separately
-      genre = item['track'].get('genre', 'Unknown')
-      user_genres.add(genre)
+  # user_genres = set()
+  # for playlist in user_data['playlists']:
+  #   for item in playlist['tracks']['items']:
+  #     # Assuming each song has a 'genre' field. If not, you might need to fetch this separately
+  #     genre = item['track'].get('genre', 'Unknown')
+  #     user_genres.add(genre)
 
   # Define a list of all possible genres (this should be more comprehensive in a real application)
   all_genres = [
