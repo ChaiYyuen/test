@@ -468,40 +468,87 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
   genres = get_all_artist_genre()
-  genre_names = {}
-  for idx in genres:
-    for name in idx:
-      if name in genre_names.keys():
-        genre_names[name] += 1
-      elif name not in genre_names.keys():
-        genre_names[name] = 1
-      else:
-        continue
-  st.write(genre_names)
+  genre_counter_and_ai_sorter(genres)
 
 
-def get_gptGenre_response():
-  # songs = get_all_songs_by_artist()
-  song_str = ""
-  for song in songs:
-    song_str += song + " "
-  system_prompt = """
-  You are given a list of songs with their respective artists
-  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title and genre. Generate a complete and accurate JSON at the end according to max_tokens = 5000."""
-  response = client.chat.completions.create(
-      model="gpt-4",
-      messages=[
-          {
-              "role": "system",
-              "content": system_prompt
-          },
-          {
-              "role": "user",
-              "content": song_str
-          },
-      ],
-      temperature=1,
-      max_tokens=5000,
-      frequency_penalty=1,
+def genre_counter_and_ai_sorter(genres):
+  st.markdown(f"<div class='title'>Genre Counter and AI Sorter</div>",
+              unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+  # Flatten the 2D list and count genres
+  all_genres = [genre for sublist in genres for genre in sublist]
+  genre_counts = Counter(all_genres)
+
+  # Sort genres by count (highest to lowest)
+  sorted_genres = genre_counts.most_common()
+
+  # Display the sorted genres
+  st.subheader("Genres sorted by occurrence (highest to lowest):")
+  for genre, count in sorted_genres:
+    st.write(f"Genre: {genre} - {count}")
+
+  # Prepare data for AI model
+  genre_data = [{
+      "genre": genre,
+      "count": count
+  } for genre, count in sorted_genres]
+
+  # Function to get AI analysis of genre distribution
+  def get_ai_analysis(genre_data):
+    system_prompt = """
+      You are a music industry analyst. Given a list of music genres and their listen counts,
+      provide insights on the genre distribution. Make the output with Header and subheader to be more beauty.
+      Consider the following in your analysis:
+      1. Analyze the top3 genres
+      2. Suggest 5 songs of these genres.
+      3. Lastly, suggest 2 songs of the least genres.
+  
+      Example:
+      Top 3 Genres (SUbheader)
+      1. Rock
+      2. HipHop
+      3. RnB
+  
+      5 songs of the TOP GENRES (Subheader)
+      1. "Lucid Dreams" by Juice WRLD (HipHop)
+      2. "Pink + White" by Frank Ocean (RnB)
+      3. "All Red" by Playboi Carti (HipHop)
+      4. "Bohemian Rhapsody" by Queen (Rock)
+      5. "Imagine" by John Lennon (Rock)
+  
+      3 songs of the LEAST GENRES (Subheader)
+      1. "Get Lucky" by Daft Punk (Electronic)
+      2. "Midnight City" by M83 (Electronic)
+      3. "Bad Guy" by Billie Eilish (Pop)
+  
+  
+      Provide your analysis in a structured format with clear headings.
+      """
+
+    genre_json = json.dumps(genre_data)
+
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{
+            "role": "system",
+            "content": system_prompt
+        }, {
+            "role": "user",
+            "content": f"Analyze this genre distribution: {genre_json}"
+        }],
+        temperature=0.7,
+        max_tokens=2000)
+
+    # Correctly access the content of the message
+    return response.choices[0].message.content
+
+  # Get and display AI analysis
+  st.subheader("AI Analysis of Genre Distribution")
+  with st.spinner("Analyzing genre distribution..."):
+    analysis = get_ai_analysis(genre_data)
+    st.markdown(analysis)
+
+  st.caption(
+      "This analysis is AI-generated based on the provided genre distribution."
   )
-  return response.choices[0].message.content
