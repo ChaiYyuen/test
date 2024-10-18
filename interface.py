@@ -163,7 +163,8 @@ def login_page(auth_url):
 def sidebar():
   css()
   # Display the user picture at the top of the sidebar
-  # st.sidebar.image(userpicture, width=100)
+  userpicture = st.session_state['user_data']['images']['url']
+  st.sidebar.image(userpicture, width=100)
   st.sidebar.title("Navigation")
   st.sidebar.write(f"Welcome, {st.session_state['username']}!")
 
@@ -337,7 +338,7 @@ def view_playlist():
     photo, song_show = st.columns([1, 5])
     with container:
       with photo:
-        st.image(song['image'], width=150)
+        st.image(song['image'], width=100)
       with song_show:
         st.write(f"*{song['name']}* \n\n\tby {song['artist']}")
 
