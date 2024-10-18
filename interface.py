@@ -355,12 +355,29 @@ def get_song_recommendations():
   st.markdown(f"<div class='title'>Songs recommendation !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  desired_tempo = st.slider("Select desired BPM (Beats per Minute)", 50, 200,
-                            100)
+  instrumentalness_select = ""
+  instrumentalness = st.radio(
+      "What's your favorite movie genre",
+      ["High", "Average", "Low"],
+      captions=[
+          "High",
+          "Average",
+          "Low",
+      ],
+  )
+  if instrumentalness == "High":
+    instrumentalness_select = "high"
+  elif instrumentalness == "Average":
+    instrumentalness_select = "Average"
+  else:
+    instrumentalness_select = "Low"
+
   desired_sentiment = st.selectbox(
       "Select desired Sentiment",
       ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
-  desired_TS = (f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}")
+  desired_TS = (
+      f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}"
+  )
   recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
   display_recommend(recommendations)
 
