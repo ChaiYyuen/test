@@ -471,9 +471,9 @@ def analyze_genres():
   genre_names = {}
   for idx in genres:
     for name in idx:
-      if name in genre_names.keys:
+      if name in genre_names:
         genre_names[name] += 1
-      elif name not in genre_names.keys:
+      elif name not in genre_names:
         genre_names[name] = 1
       else:
         continue
