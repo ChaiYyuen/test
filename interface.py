@@ -457,7 +457,7 @@ def get_all_songs_by_artist():
       artist = track['artists'][0]['name'] if track['artists'] else 'Unknown'
       song_by = f"{name} by {artist}"
       songs.append(song_by)
-      count++
+      count+=1
 
   return songs
 
