@@ -40,7 +40,7 @@ def create_user_playlist(token, id, playlist_name, playlist_desc, public):
   data = {
       "name": "New Playlist",
       "description": "New playlist description",
-      "public": false
+      "public": False
   }
   result = post(url, headers=headers, data=data)
   json_result = json.loads(result.content)
