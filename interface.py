@@ -409,11 +409,21 @@ def get_song_recommendations():
       popularity_select = "Average"
     else:
       popularity_select = "Low"
+
+  desired_tempo = st.slider("Select desired BPM (Beats per Minute)", 50, 200,
+                            100)
   desired_sentiment = st.selectbox(
       "Select desired Sentiment",
       ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
+  desired_key = st.selectbox(
+      "Key",
+      ("C Major", "C Minor", "C# Major", "C# Minor", "D Major", "D Minor",
+       "Eb Major", "Eb Minor", "E Major", "E Minor", "F Major", "F Minor",
+       "F# Major", "F# Minor", "G Major", "G Minor", "Ab Major", "Ab Minor",
+       "A Major", "A Minor", "Bb Major", "Bb Minor", "B Major", "B Minor"),
+  )
   desired_TS = (
-      f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}, Acousticness: {acousticness_select}, Popularity: {popularity_select}"
+      f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}, Acousticness: {acousticness_select}, Popularity: {popularity_select}, Key: {desired_key}"
   )
   recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
   display_recommend(recommendations)
