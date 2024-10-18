@@ -467,6 +467,7 @@ def analyze_genres():
 
 
 def get_gptGenre_response():
+  songs = get_all_songs_by_artist()
   system_prompt = """
   You are given a list of songs with their respective artists
   For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title, artist, and genre, only in text, no symbols or special characters.
@@ -479,19 +480,12 @@ def get_gptGenre_response():
               "content": system_prompt
           },
           {
-              "role":
-              "user",
-              "content":
-              """Lucid Dreams by Juice WRLD,
-    Blinding Lights by The Weeknd,
-    Shape of You by Ed Sheeran,
-    Smells Like Teen Spirit by Nirvana,
-    Take Five by Dave Brubeck,
-    Lucid Dreams by Juice WRLD"""
+              "role": "user",
+              "content": songs
           },
       ],
       temperature=1,
-      max_tokens=2000,
+      max_tokens=10000,
       frequency_penalty=1,
   )
   return response.choices[0].message.content
