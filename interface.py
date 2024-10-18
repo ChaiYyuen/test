@@ -453,7 +453,7 @@ def get_all_artist_genre():
 
   for id in artist_id:
     artist_genre.append(func.get_artist_genre(token, id))
-  st.write(artist_genre)
+  return artist_genre
 
 
 def analyze_genres():
@@ -462,7 +462,7 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
 
-  get_all_artist_genre()
+  st.write(get_all_artist_genre()[0][0])
 
 
 def get_gptGenre_response():
