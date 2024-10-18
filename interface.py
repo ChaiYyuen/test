@@ -168,7 +168,7 @@ def sidebar():
   st.sidebar.image(userpicture, width=100)
   st.sidebar.title("Navigation")
   st.sidebar.write(
-      f"Welcome, {st.session_state['user_data']['display_name']}!")
+      f"Welcome, {st.session_state['user_data']['display_name']} !!!")
 
   if st.sidebar.button('Log out'):
     st.session_state['logged_in'] = False
@@ -352,8 +352,9 @@ def display_recommend(recommendations):
 
 
 def get_song_recommendations():
-  st.markdown(f"<div class='title'>Songs recommendation !</div>",
-              unsafe_allow_html=True)
+  st.markdown(
+      f"<div class='title'>Fine Tune your Songs Recommendations !</div>",
+      unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   col1, col2, col3 = st.columns([1, 1, 1])
   with col1:
