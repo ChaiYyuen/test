@@ -337,7 +337,7 @@ def view_playlist():
     photo, song_show = st.columns([1, 5])
     with container:
       with photo:
-        st.image(song['image'], width=50)
+        st.image(song['image'], width=150)
       with song_show:
         st.write(f"*{song['name']}* \n\n\tby {song['artist']}")
 
@@ -423,7 +423,7 @@ def get_gpt_response(prompt):
   system_prompt = """
   You are a professional in music. Answer anything asked related to music and songs. Otherwise reply 'Sorry, I can't help you with that. Try asking something related to music.'
   """
-  response = client.chat.completions.create(model='gpt-4o-mini',
+  response = client.chat.completions.create(model='gpt-4',
                                             messages=[{
                                                 'role': 'system',
                                                 'content': system_prompt
