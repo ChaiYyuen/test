@@ -438,28 +438,20 @@ def get_gpt_response(prompt):
   return response.choices[0].message.content
 
 
-def get_all_songs_by_artist():
-  songs = []
+def get_all_artist_genre():
   token = st.session_state['token_info']['access_token']
-  count = 0
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
   playlist_ids = [id['id'] for id in playlist_items]
-  playlist_names = [playlist['name'] for playlist in playlist_items]
-  for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
+  artist_genre = []
+  artist_id = []
+  for playlist_id in playlist_ids:
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
-      if (count > 20):
-        count = 0
-        break
       track = items['track']
-      name = track['name']
-      artist = track['artists'][0]['name'] if track['artists'] else 'Unknown'
-      song_by = f"{name} by {artist}"
-      songs.append(song_by)
-      count += 1
+      artist_id.append[track['artists'][0]['id']]
 
-  return songs
+  return artist_id
 
 
 def analyze_genres():
@@ -467,11 +459,11 @@ def analyze_genres():
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
-  st.write(st.session_state['playlists'])
+  st.write(get_all_artist_genre())
 
 
 def get_gptGenre_response():
-  songs = get_all_songs_by_artist()
+  # songs = get_all_songs_by_artist()
   song_str = ""
   for song in songs:
     song_str += song + " "

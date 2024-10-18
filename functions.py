@@ -70,6 +70,14 @@ def search_for_artist(token, artist_name):
   return json_result[0]
 
 
+def get_artist_genre(token, artist_id):
+  url = API_BASE_URL + f"artists/{artist_id}"
+  headers = get_auth_header(token)
+  result = get(url, headers=headers)
+  json_result = json.loads(result.content)
+  return json_result
+
+
 def get_songs_by_artist(token, artist_id):
   url = f"{API_BASE_URL}artists/{artist_id}/top-tracks?market=US"
   headers = get_auth_header(token)
