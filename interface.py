@@ -3,6 +3,7 @@ import base64
 import functions as func
 import json
 from openai import OpenAI
+import random
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
@@ -131,7 +132,9 @@ def set_playlist(playlists):
 
 def page_selector():
   sidebar()
-  if st.session_state['page'] == 'get_song_recommendations':
+  if st.session_state['page'] == 'view_playlist':
+    view_playlist()
+  elif st.session_state['page'] == 'get_song_recommendations':
     get_song_recommendations()
   elif st.session_state['page'] == 'analyze_genres':
     analyze_genres()
@@ -175,11 +178,14 @@ def sidebar():
 
     # Use a selectbox to persist the state across reruns
     page_selection = st.sidebar.selectbox(
-        "Select a page", ("Main page", "Get Song Recommendations",
-                          "Analyze Genres", "Chat with the Bot"))
+        "Select a page",
+        ("Main page", "View Playlist", "Get Song Recommendations",
+         "Analyze Genres", "Chat with the Bot"))
 
     # Set session state page based on selection
-    if page_selection == "Get Song Recommendations":
+    if page_selection == 'View Playlist':
+      st.session_state['page'] = 'view_playlist'
+    elif page_selection == "Get Song Recommendations":
       st.session_state['page'] = 'get_song_recommendations'
     elif page_selection == "Analyze Genres":
       st.session_state['page'] = 'analyze_genres'
@@ -190,19 +196,88 @@ def sidebar():
 
 
 def success_page():
-  token = st.session_state['token_info']['access_token']
-  userid = st.session_state['user_data']['id']
-  st.write(userid)
-  st.write(func.create_user_playlist(token, userid, "Hello", None, True))
-  # Title and content with inline CSS
-  st.markdown(
-      f"<div class='title'>Welcome, {st.session_state['user_data']['display_name']}!</div>",
-      unsafe_allow_html=True)
-  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  st.write('You have successfully logged in to Spotify.')
-  st.write(
-      "Now you can explore your Spotify playlists and analyze your music genres!"
+  user_data = st.session_state['user_data']
+  if user_data:
+    st.markdown(
+        f"<div class='title'>Welcome, {user_data['display_name']}!</div>",
+        unsafe_allow_html=True)
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    st.write('You have successfully logged in to Spotify.')
+    st.write(
+        "Now you can explore your Spotify playlists and analyze your music!")
+
+    get_ai_recommendations()
+
+  else:
+    st.error("User data not found. Please try logging in again.")
+
+
+def get_ai_recommendations():
+  user_data = st.session_state['user_data']
+  if not user_data:
+    st.error("User data not found. Please try logging in again.")
+    return
+
+  # Extract genres from user's playlists
+  user_genres = set()
+  for playlist in user_data['playlists']:
+    for item in playlist['tracks']['items']:
+      # Assuming each song has a 'genre' field. If not, you might need to fetch this separately
+      genre = item['track'].get('genre', 'Unknown')
+      user_genres.add(genre)
+
+  # Define a list of all possible genres (this should be more comprehensive in a real application)
+  all_genres = [
+      "Rock", "Pop", "Hip Hop", "Jazz", "Classical", "Electronic", "Country",
+      "R&B", "Blues", "Reggae", "Folk", "Metal", "Punk", "Soul", "Funk",
+      "Disco", "Techno", "House", "Ambient", "Gospel"
+  ]
+
+  # Find genres the user hasn't listened to
+  new_genres = [genre for genre in all_genres if genre not in user_genres]
+
+  if not new_genres:
+    st.subheader(
+        "You seem to have explored all genres! Here are some eclectic recommendations:"
+    )
+    st.divider()
+    new_genres = random.sample(all_genres, 5)
+  else:
+    st.subheader(
+        "Based on your listening history, here are some recommendations from genres you might not have explored:"
+    )
+    st.divider()
+
+  # Use GPT to generate recommendations
+  recommendations = []
+  for genre in random.sample(new_genres, 5):
+    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Include the artist name."
+    response = client.chat.completions.create(model='gpt-4',
+                                              messages=[{
+                                                  'role': 'user',
+                                                  'content': prompt
+                                              }],
+                                              max_tokens=50)
+    recommendation = response.choices[0].message.content.strip()
+    recommendations.append((genre, recommendation))
+
+  # Display recommendations
+  for genre, recommendation in recommendations:
+    st.subheader(f"{genre}")
+    st.write(recommendation)
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+  st.caption(
+      "***These recommendations are AI-generated and may not reflect actual songs. Always verify before listening!"
   )
+
+
+def view_playlist():
+  token = st.session_state['token_info']['access_token']
+
+  st.markdown(f"<div class='title'>View your playlists !</div>",
+              unsafe_allow_html=True)
+  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
@@ -264,7 +339,7 @@ def success_page():
       with photo:
         st.image(song['image'], width=50)
       with song_show:
-        st.write(f"*{song['name']}* \n\tby {song['artist']}")
+        st.write(f"*{song['name']}* \n\n\tby {song['artist']}")
 
 
 def display_recommend(recommendations):
