@@ -449,7 +449,7 @@ def get_all_artist_genre():
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
       track = items['track']
-      artist_id.append[track['artists'][0]['id']]
+      artist_id.append(track['artists'][0]['id'])
 
   st.write(artist_id)
 
