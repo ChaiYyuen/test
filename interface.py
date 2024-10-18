@@ -191,6 +191,9 @@ def sidebar():
 
 def success_page():
   token = st.session_state['token_info']['access_token']
+  userid = st.session_state['user_data']['id']
+  st.write(userid)
+  st.write(func.create_user_playlist(token, userid, "Hello", None, True))
   # Title and content with inline CSS
   st.markdown(
       f"<div class='title'>Welcome, {st.session_state['user_data']['display_name']}!</div>",
