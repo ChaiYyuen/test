@@ -481,7 +481,7 @@ def get_gptGenre_response():
           },
           {
               "role": "user",
-              "content": songs
+              "content": "hello"
           },
       ],
       temperature=1,
