@@ -277,6 +277,7 @@ def get_ai_recommendations():
 def view_playlist():
   token = st.session_state['token_info']['access_token']
 
+  st.write(get_all_songs())
   st.markdown(f"<div class='title'>View your playlists !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
@@ -437,6 +438,23 @@ def get_gpt_response(prompt):
   return response.choices[0].message.content
 
 
+def get_all_songs():
+  songs = []
+  token = st.session_state['token_info']['access_token']
+
+  playlists_data = st.session_state['playlists']
+  playlist_items = playlists_data['items']
+  playlist_ids = [id['id'] for id in playlist_items]
+  playlist_names = [playlist['name'] for playlist in playlist_items]
+  for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
+    playlist_tracks = func.get_user_playlists_items(token, playlist_id)
+    for items in playlist_tracks:
+      track = items['track']
+      songs.append(track['name'])
+
+  return songs
+
+
 def analyze_genres():
   st.markdown(f"<div class='title'>Sort Genres !</div>",
               unsafe_allow_html=True)
@@ -472,7 +490,7 @@ def analyze_genres():
       song_title = song['name']
 
       # Get the genre of the artist (mock data for now)
-      genre = get_artist_genre(artist_name)
+      # genre = get_artist_genre(artist_name)
 
       # Add the song to the respective genre list
       if genre not in genre_dict:
