@@ -463,45 +463,33 @@ def analyze_genres():
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
-  user_data = st.session_state
+  st.write(get_gptGenre_response())
 
-  # If no playlists, display an error message
-  if not user_data or not user_data['playlists']:
-    st.error("No playlists found for this user.")
-    return
 
-  # Choose a playlist to sort songs from
-  playlist_names = [playlist['name'] for playlist in user_data['playlists']]
-  selected_playlist_name = st.selectbox("Choose a playlist to sort by genre",
-                                        playlist_names)
-
-  # Find the selected playlist
-  selected_playlist = next((playlist for playlist in user_data['playlists']
-                            if playlist['name'] == selected_playlist_name),
-                           None)
-
-  if selected_playlist:
-    st.title(f"Playlist: {selected_playlist['name']}")
-
-    # Initialize a dictionary to store songs by genre
-    genre_dict = {}
-
-    # Loop through the tracks in the playlist
-    for item in selected_playlist['tracks']['items']:
-      song = item['track']
-      artist_name = song['artists'][0]['name']
-      song_title = song['name']
-
-      # Get the genre of the artist (mock data for now)
-      # genre = get_artist_genre(artist_name)
-
-      # Add the song to the respective genre list
-      if genre not in genre_dict:
-        genre_dict[genre] = []
-      genre_dict[genre].append(f"{song_title} by {artist_name}")
-
-    # Display songs grouped by genre
-    for genre, songs in sorted(genre_dict.items()):
-      st.subheader(f"Genre: {genre}")
-      for song in songs:
-        st.write(f"- {song}")
+def get_gptGenre_response():
+  system_prompt = """
+  You are given a list of songs with their respective artists
+  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title, artist, and genre.
+  """
+  response = client.chat.completions.create(
+      model="gpt-4o-mini",
+      messages=[
+          {
+              "role": "system",
+              "content": system_prompt
+          },
+          {
+              "role": "user",
+              "content": "    "Lucid Dreams by Juice WRLD",
+    "Blinding Lights by The Weeknd",
+    "Shape of You by Ed Sheeran",
+    "Smells Like Teen Spirit by Nirvana",
+    "Take Five by Dave Brubeck",
+    "Lucid Dreams by Juice WRLD""
+          },
+      ],
+      temperature=1,
+      max_tokens=2000,
+      frequency_penalty=1,
+  )
+  return response.choices[0].message.content
