@@ -477,8 +477,7 @@ def get_gptGenre_response():
     song_str += song + " "
   system_prompt = """
   You are given a list of songs with their respective artists
-  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title and genre. Generate a complete JSON at the end according to max_tokens = 5000.
-Make it simple and accurate on the JSON """
+  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title and genre. Generate a complete and accurate JSON at the end according to max_tokens = 5000."""
   response = client.chat.completions.create(
       model="gpt-4",
       messages=[
