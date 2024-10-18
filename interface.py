@@ -468,6 +468,9 @@ def analyze_genres():
 
 def get_gptGenre_response():
   songs = get_all_songs_by_artist()
+  song_str = ""
+  for song in songs:
+    song_str += song + " "
   system_prompt = """
   You are given a list of songs with their respective artists
   For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title, artist, and genre, only in text, no symbols or special characters.
@@ -481,7 +484,7 @@ def get_gptGenre_response():
           },
           {
               "role": "user",
-              "content": "hello"
+              "content": song_str
           },
       ],
       temperature=1,
