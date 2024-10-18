@@ -35,11 +35,11 @@ def get_user_playlists(token):
 
 
 def create_user_playlist(token, id, playlist_name, playlist_desc, public):
-  url = f"https://api.spotify.com/v1/me/playlists"
+  url = f"https://api.spotify.com/v1/users/{id}/playlists"
   headers = get_auth_header(token)
   data = {
       "name": playlist_name,
-      "description": "No description",
+      "description": "New playlist description",
       "public": False
   }
   result = post(url, headers=headers, data=data)
