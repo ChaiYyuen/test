@@ -353,7 +353,7 @@ def display_recommend(recommendations):
 
 def get_song_recommendations():
   st.markdown(
-      f"<div class='title'>Fine Tune your Songs Recommendations !</div>",
+      f"<div class='title'> Fine Tune your Songs Recommendations !</div>",
       unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   col1, col2, col3 = st.columns([1, 1, 1])
