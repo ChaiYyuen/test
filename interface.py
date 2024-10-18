@@ -121,8 +121,8 @@ def render_image(filepath: str):
   st.image(image_string)
 
 
-def set_username(username):
-  st.session_state['username'] = username
+def set_username(userdata):
+  st.session_state['user_data'] = userdata
 
 
 def set_playlist(playlists):
@@ -193,7 +193,7 @@ def success_page():
   token = st.session_state['token_info']['access_token']
   # Title and content with inline CSS
   st.markdown(
-      f"<div class='title'>Welcome, {st.session_state['username']}!</div>",
+      f"<div class='title'>Welcome, {st.session_state['user_data']['display_name']}!</div>",
       unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   st.write('You have successfully logged in to Spotify.')

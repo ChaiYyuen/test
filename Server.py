@@ -79,8 +79,6 @@ def main():
       st.error("Failed to get access token")
       st.write(token_info)  # This might give more info about the error
       return
-  elif 'error' in params:
-    st.rerun()
 
   # Check if token needs refreshing
   if st.session_state['is_authenticated']:
@@ -98,7 +96,7 @@ def main():
         return
 
   # Main app logic
-  if not st.session_state['is_authenticated']:
+  if not st.session_state['is_authenticated'] or 'error' in params:
     auth_params = {
         "response_type": 'code',
         "client_id": CLIENT_ID,
@@ -117,7 +115,7 @@ def main():
     #User Profile
     user_profile = func.get_user_profile(token)
     playlists = func.get_user_playlists(token)
-    ui.set_username(user_profile['display_name'])
+    ui.set_username(user_profile)
     ui.set_playlist(playlists)
     ui.page_selector()
 
