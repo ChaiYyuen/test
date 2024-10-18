@@ -441,7 +441,7 @@ def get_gpt_response(prompt):
 def get_all_songs_by_artist():
   songs = []
   token = st.session_state['token_info']['access_token']
-
+  count = 0
   playlists_data = st.session_state['playlists']
   playlist_items = playlists_data['items']
   playlist_ids = [id['id'] for id in playlist_items]
@@ -449,11 +449,15 @@ def get_all_songs_by_artist():
   for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
+      if(count>30):
+        count=0
+        break
       track = items['track']
       name = track['name']
       artist = track['artists'][0]['name'] if track['artists'] else 'Unknown'
       song_by = f"{name} by {artist}"
       songs.append(song_by)
+      count++
 
   return songs
 
