@@ -163,7 +163,7 @@ def login_page(auth_url):
 def sidebar():
   css()
   # Display the user picture at the top of the sidebar
-  userpicture = st.session_state['user_data']['images']['url']
+  userpicture = st.session_state['user_data']['images'][0]['url']
   st.sidebar.image(userpicture, width=100)
   st.sidebar.title("Navigation")
   st.sidebar.write(f"Welcome, {st.session_state['username']}!")
