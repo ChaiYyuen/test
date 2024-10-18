@@ -277,7 +277,7 @@ def get_ai_recommendations():
 def view_playlist():
   token = st.session_state['token_info']['access_token']
 
-  st.write(get_all_songs())
+  st.write(get_all_songs_by_artist())
   st.markdown(f"<div class='title'>View your playlists !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
@@ -438,7 +438,7 @@ def get_gpt_response(prompt):
   return response.choices[0].message.content
 
 
-def get_all_songs():
+def get_all_songs_by_artist():
   songs = []
   token = st.session_state['token_info']['access_token']
 
@@ -450,7 +450,10 @@ def get_all_songs():
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
       track = items['track']
-      songs.append(track['name'])
+      name = track['name']
+      artist = track['artists'][0]['name'] if track['artists'] else 'Unknown'
+      song_by = f"{name} by {artist}"
+      songs.append(song_by)
 
   return songs
 
