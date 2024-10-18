@@ -286,21 +286,24 @@ def view_playlist():
   playlist_ids = [id['id'] for id in playlist_items]
   playlist_names = [playlist['name'] for playlist in playlist_items]
   songs = {}
+  ss = []
   for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     playlist_songs = []
     for items in playlist_tracks:
       track = items['track']
-      song_info = {
-          'name': track['name'],
-          'artist':
-          track['artists'][0]['name'] if track['artists'] else 'Unknown',
-          'album': track['album']['name'] if 'album' in track else 'Unknown',
-          'image': track['album']['images'][0]['url']
-      }
-      playlist_songs.append(song_info)
+      ss.append(track)
+      # song_info = {
+      #     'name': track['name'],
+      #     'artist':
+      #     track['artists'][0]['name'] if track['artists'] else 'Unknown',
+      #     'album': track['album']['name'] if 'album' in track else 'Unknown',
+      #     'image': track['album']['images'][0]['url']
+      # }
+      # playlist_songs.append(song_info)
 
     songs[playlist_name] = playlist_songs
+  st.write(ss)
 
   # Display total number of playlists
   st.subheader(f"You have {len(playlist_items)} playlists")
