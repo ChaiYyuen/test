@@ -74,8 +74,10 @@ def get_artist_genre(token, artist_id):
   url = API_BASE_URL + f"artists/{artist_id}"
   headers = get_auth_header(token)
   result = get(url, headers=headers)
-  json_result = json.loads(result.content)
-  return json_result['genres']
+  json_result = json.loads(result.content)['genre']
+  if (len(json_result)) == 0:
+    return None
+  return json_result
 
 
 def get_songs_by_artist(token, artist_id):
