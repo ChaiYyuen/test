@@ -463,20 +463,11 @@ def get_all_artist_genre():
 
 
 def analyze_genres():
-  st.markdown(f"<div class='title'>Sort Genres !</div>",
-              unsafe_allow_html=True)
-  st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  # Fetch user data (including playlists)
-  genres = get_all_artist_genre()
-  st.write(genres)
-  # genre_counter_and_ai_sorter(genres)
-
-
-def genre_counter_and_ai_sorter(genres):
   st.markdown(f"<div class='title'>Genre Counter and AI Sorter</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
+  genres = get_all_artist_genre()
   # Flatten the 2D list and count genres
   all_genres = [genre for sublist in genres for genre in sublist]
   genre_counts = Counter(all_genres)
