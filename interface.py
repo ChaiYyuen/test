@@ -479,10 +479,10 @@ def analyze_genres():
   # Sort genres by count (highest to lowest)
   sorted_genres = genre_counts.most_common()
 
-  # Display the sorted genres
-  st.subheader("Genres sorted by occurrence (highest to lowest):")
-  for genre, count in sorted_genres:
-    st.write(f"Genre: {genre} - {count}")
+  # # Display the sorted genres
+  # st.subheader("Genres sorted by occurrence (highest to lowest):")
+  # for genre, count in sorted_genres:
+  #   st.write(f"Genre: {genre} - {count}")
 
   # Prepare data for AI model
   genre_data = [{
