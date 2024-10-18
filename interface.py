@@ -468,6 +468,7 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
   genres = get_all_artist_genre()
+  st.write(genres)
   # Flatten the 2D list and count genres
   all_genres = [genre for sublist in genres for genre in sublist]
   genre_counts = Counter(all_genres)
