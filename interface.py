@@ -485,7 +485,7 @@ def get_gptGenre_response():
           },
       ],
       temperature=1,
-      max_tokens=10000,
+      max_tokens=5000,
       frequency_penalty=1,
   )
   return response.choices[0].message.content
