@@ -469,7 +469,7 @@ def analyze_genres():
 def get_gptGenre_response():
   system_prompt = """
   You are given a list of songs with their respective artists
-  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title, artist, and genre.
+  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title, artist, and genre, only in text, no symbols or special characters.
   """
   response = client.chat.completions.create(
       model="gpt-4o-mini",
