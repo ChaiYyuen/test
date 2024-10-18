@@ -1,3 +1,4 @@
+from typing import Counter
 import streamlit as st
 import base64
 import functions as func
@@ -445,11 +446,16 @@ def get_all_artist_genre():
   playlist_ids = [id['id'] for id in playlist_items]
   artist_genre = []
   artist_id = []
+  count = 0
   for playlist_id in playlist_ids:
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
+      if (count > 10):
+        count = 0
+        break
       track = items['track']
       artist_id.append(track['artists'][0]['id'])
+      count += 1
 
   for id in artist_id:
     artist_genre.append(func.get_artist_genre(token, id))
@@ -462,7 +468,7 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
   genres = get_all_artist_genre()
-  st.write(genres[0])
+  st.write(genres[0][0])
 
 
 def get_gptGenre_response():
