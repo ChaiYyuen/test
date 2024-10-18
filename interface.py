@@ -234,7 +234,7 @@ def get_ai_recommendations():
   ]
 
   # Find genres the user hasn't listened to
-  new_genres = [genre for genre in all_genres if genre not in user_genres]
+  new_genres = [genre for genre in all_genres]
 
   if not new_genres:
     st.subheader(
