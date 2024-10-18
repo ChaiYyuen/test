@@ -479,13 +479,15 @@ def get_gptGenre_response():
               "content": system_prompt
           },
           {
-              "role": "user",
-              "content": "    "Lucid Dreams by Juice WRLD",
-    "Blinding Lights by The Weeknd",
-    "Shape of You by Ed Sheeran",
-    "Smells Like Teen Spirit by Nirvana",
-    "Take Five by Dave Brubeck",
-    "Lucid Dreams by Juice WRLD""
+              "role":
+              "user",
+              "content":
+              """Lucid Dreams by Juice WRLD,
+    Blinding Lights by The Weeknd,
+    Shape of You by Ed Sheeran,
+    Smells Like Teen Spirit by Nirvana,
+    Take Five by Dave Brubeck,
+    Lucid Dreams by Juice WRLD"""
           },
       ],
       temperature=1,
