@@ -462,6 +462,13 @@ def get_all_artist_genre():
   return artist_genre
 
 
+def flatten_genres(genres):
+  if genres is None:
+    st.error("No genres data available. Please check your data source.")
+    return []
+  return [genre for sublist in genres for genre in sublist]
+
+
 def analyze_genres():
   st.markdown(f"<div class='title'>Genre Counter and AI Sorter</div>",
               unsafe_allow_html=True)
@@ -470,7 +477,8 @@ def analyze_genres():
   genres = get_all_artist_genre()
   st.write(genres)
   # Flatten the 2D list and count genres
-  all_genres = [genre for sublist in genres for genre in sublist]
+
+  all_genres = flatten_genres(genres)
   genre_counts = Counter(all_genres)
 
   # Sort genres by count (highest to lowest)
