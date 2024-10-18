@@ -453,7 +453,7 @@ def get_all_artist_genre():
 
   for id in artist_id:
     artist_genre.append(func.get_artist_genre(token, id))
-  st.write(artist_genre)
+  st.write(func.get_artist_genre(token, artist_id[0]))
 
 
 def analyze_genres():
