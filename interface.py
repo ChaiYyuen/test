@@ -339,7 +339,7 @@ def view_playlist():
       with photo:
         st.image(song['image'], width=50)
       with song_show:
-        st.write(f"*{song['name']}* \n\tby {song['artist']}")
+        st.write(f"*{song['name']}* \n\n\tby {song['artist']}")
 
 
 def display_recommend(recommendations):
