@@ -166,7 +166,8 @@ def sidebar():
   userpicture = st.session_state['user_data']['images'][0]['url']
   st.sidebar.image(userpicture, width=100)
   st.sidebar.title("Navigation")
-  st.sidebar.write(f"Welcome, {st.session_state['username']}!")
+  st.sidebar.write(
+      f"Welcome, {st.session_state['user_data']['display_name']}!")
 
   if st.sidebar.button('Log out'):
     st.session_state['logged_in'] = False
