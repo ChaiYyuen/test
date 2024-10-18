@@ -469,8 +469,8 @@ def analyze_genres():
   # Fetch user data (including playlists)
   genres = get_all_artist_genre()
   genre_names = {}
-  for idx in genres:
-    for idx2 in genres[idx]:
+  for idx,v in enumerate(genres):
+    for idx2,v2 in enumerate(genres[idx]):
       name = genres[idx][idx2]
       if name in genre_names:
         genre_names[name] += 1
