@@ -468,7 +468,8 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
   genres = get_all_artist_genre()
-  genre_counter_and_ai_sorter(genres)
+  st.write(genres)
+  # genre_counter_and_ai_sorter(genres)
 
 
 def genre_counter_and_ai_sorter(genres):
