@@ -355,28 +355,65 @@ def get_song_recommendations():
   st.markdown(f"<div class='title'>Songs recommendation !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-  instrumentalness_select = ""
-  instrumentalness = st.radio(
-      "What's your favorite movie genre",
-      ["High", "Average", "Low"],
-      captions=[
-          "High",
-          "Average",
-          "Low",
-      ],
-  )
-  if instrumentalness == "High":
-    instrumentalness_select = "high"
-  elif instrumentalness == "Average":
-    instrumentalness_select = "Average"
-  else:
-    instrumentalness_select = "Low"
+  col1, col2, col3 = st.columns([1, 1, 1])
+  with col1:
+    instrumentalness_select = ""
+    instrumentalness = st.radio(
+        "Instrumentalness",
+        ["High", "Average", "Low"],
+        captions=[
+            "High",
+            "Average",
+            "Low",
+        ],
+    )
+    if instrumentalness == "High":
+      instrumentalness_select = "high"
+    elif instrumentalness == "Average":
+      instrumentalness_select = "Average"
+    else:
+      instrumentalness_select = "Low"
 
+  with col2:
+    acousticness_select = ""
+    acousticness = st.radio(
+        "Acousticness",
+        ["High", "Average", "Low"],
+        captions=[
+            "High",
+            "Average",
+            "Low",
+        ],
+    )
+    if acousticness == "High":
+      acousticness_select = "high"
+    elif acousticness == "Average":
+      acousticness_select = "Average"
+    else:
+      acousticness_select = "Low"
+
+  with col3:
+    popularity_select = ""
+    popularity = st.radio(
+        "Popularity",
+        ["High", "Average", "Low"],
+        captions=[
+            "High",
+            "Average",
+            "Low",
+        ],
+    )
+    if popularity == "High":
+      popularity_select = "high"
+    elif popularity == "Average":
+      popularity_select = "Average"
+    else:
+      popularity_select = "Low"
   desired_sentiment = st.selectbox(
       "Select desired Sentiment",
       ["Calm", "Dark", "Energetic", "Happy", "Romantic", "Sad"])
   desired_TS = (
-      f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}"
+      f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}, Acousticness: {acousticness_select}, Popularity: {popularity_select}"
   )
   recommendations = json.loads(recommend_by_tempo_and_sentiment(desired_TS))
   display_recommend(recommendations)
