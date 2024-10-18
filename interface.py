@@ -462,16 +462,14 @@ def get_all_artist_genre():
   return artist_genre
 
 
-def genre_counter_and_ai_sorter(genre_data):
-  st.markdown(f"<div class='title'>Genre Counter and AI Sorter</div>", unsafe_allow_html=True)
+def analyze_genres():
+  st.markdown(f"<div class='title'>Genre Counter and AI Sorter</div>",
+              unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
-  # Flatten the structure and count genres, excluding null values
-  all_genres = []
-  for item in genre_data:
-      for key, genres in item.items():
-          all_genres.extend([genre for genre in genres if genre is not None])
-
+  genres = get_all_artist_genre()
+  # Flatten the 2D list and count genres
+  all_genres = [genre for sublist in genres for genre in sublist]
   genre_counts = Counter(all_genres)
 
   # Sort genres by count (highest to lowest)
@@ -480,10 +478,13 @@ def genre_counter_and_ai_sorter(genre_data):
   # Display the sorted genres
   st.subheader("Genres sorted by occurrence (highest to lowest):")
   for genre, count in sorted_genres:
-      st.write(f"Genre: {genre} - Count: {count}")
+    st.write(f"Genre: {genre} - {count}")
 
   # Prepare data for AI model
-  genre_data_for_ai = [{"genre": genre, "count": count} for genre, count in sorted_genres]
+  genre_data = [{
+      "genre": genre,
+      "count": count
+  } for genre, count in sorted_genres]
 
   # Function to get AI analysis of genre distribution
   def get_ai_analysis(genre_data):
