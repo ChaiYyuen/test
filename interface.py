@@ -468,7 +468,17 @@ def analyze_genres():
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
   genres = get_all_artist_genre()
-  st.write(genres[0][0])
+  genre_names = {}
+  for idx in genres:
+    for idx2 in genres[idx]:
+      name = genres[idx][idx2]
+      if name in genre_names:
+        genre_names[name] += 1
+      elif name not in genre_names:
+        genre_names[name] = 1
+      else:
+        continue
+  st.write(genre_names)
 
 
 def get_gptGenre_response():
