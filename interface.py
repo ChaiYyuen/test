@@ -461,7 +461,7 @@ def analyze_genres():
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
-  genres = get_all_artist_genre()[0][0]
+  genres = get_all_artist_genre()
   st.write(genres[0])
 
 
