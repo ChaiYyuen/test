@@ -39,8 +39,8 @@ def create_user_playlist(token, id, playlist_name, playlist_desc, public):
   headers = get_auth_header(token)
   data = {
       "name": playlist_name,
-      "description": playlist_desc if playlist_desc else "No description",
-      "public": public if public else False
+      "description": "No description",
+      "public": False
   }
   result = post(url, headers=headers, data=data)
   json_result = json.loads(result.content)
