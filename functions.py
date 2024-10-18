@@ -38,9 +38,9 @@ def create_user_playlist(token, id, playlist_name, playlist_desc, public):
   url = f"https://api.spotify.com/v1/users/{id}/playlists"
   headers = get_auth_header(token)
   data = {
-      "name": playlist_name,
+      "name": "New Playlist",
       "description": "New playlist description",
-      "public": False
+      "public": false
   }
   result = post(url, headers=headers, data=data)
   json_result = json.loads(result.content)
