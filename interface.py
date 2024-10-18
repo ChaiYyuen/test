@@ -277,8 +277,6 @@ def get_ai_recommendations():
 
 def view_playlist():
   token = st.session_state['token_info']['access_token']
-
-  st.write(get_all_songs_by_artist())
   st.markdown(f"<div class='title'>View your playlists !</div>",
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
