@@ -114,7 +114,8 @@ def main():
 
     #User Profile
     user_profile = func.get_user_profile(token)
-    playlists = func.get_user_playlists(token)
+    user_id = user_profile['id']
+    playlists = func.get_public_user_playlists(token, user_id)
     ui.set_username(user_profile)
     ui.set_playlist(playlists)
     ui.page_selector()

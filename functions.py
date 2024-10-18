@@ -34,6 +34,16 @@ def get_user_playlists(token):
   """
 
 
+def get_public_user_playlists(token, id):
+  url = f"{API_BASE_URL}users/{id}/playlists"
+  headers = get_auth_header(token)
+  result = get(url, headers=headers)
+  json_result = json.loads(result.content)
+  if len(json_result) == 0:
+    return None
+  return json_result
+
+
 def create_user_playlist(token, id, playlist_name, playlist_desc, public):
   url = API_BASE_URL + "users/{id}/playlists"
   headers = get_auth_header(token)
