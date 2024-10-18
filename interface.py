@@ -449,7 +449,7 @@ def get_all_songs_by_artist():
   for playlist_name, playlist_id in zip(playlist_names, playlist_ids):
     playlist_tracks = func.get_user_playlists_items(token, playlist_id)
     for items in playlist_tracks:
-      if (count > 10):
+      if (count > 20):
         count = 0
         break
       track = items['track']
@@ -477,7 +477,7 @@ def get_gptGenre_response():
     song_str += song + " "
   system_prompt = """
   You are given a list of songs with their respective artists
-  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title and genre. Make it more simple by only allowing one genre in each song.
+  For each song, analyze the genre based on the artist's style and known characteristics. Output the result in JSON format with the song title and genre. Make it simple by only allowing one genre in each song.
   """
   response = client.chat.completions.create(
       model="gpt-4",
