@@ -467,7 +467,7 @@ def analyze_genres():
               unsafe_allow_html=True)
   st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
   # Fetch user data (including playlists)
-  st.write(get_gptGenre_response())
+  st.write(st.session_state['playlists'])
 
 
 def get_gptGenre_response():
