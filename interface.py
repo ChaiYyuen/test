@@ -451,9 +451,9 @@ def get_all_artist_genre():
       track = items['track']
       artist_id.append(track['artists'][0]['id'])
 
-  for id in artist_id:
-    artist_genre.append(func.get_artist_genre(token, id))
-  st.write(artist_genre)
+  # for id in artist_id:
+  #   artist_genre.append(func.get_artist_genre(token, id))
+  st.write(artist_id[0], func.get_artist_genre(token, artist_id[0]))
 
 
 def analyze_genres():
