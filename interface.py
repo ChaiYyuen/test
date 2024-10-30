@@ -438,8 +438,8 @@ def get_song_recommendations():
       f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}, Acousticness: {acousticness_select}, Popularity: {popularity_select}, Key: {desired_key}"
   )
   json_results = recommend_by_tempo_and_sentiment(desired_TS)
-  st.write(json_results)
-  print(json_results)
+  st.markdown(f"<div class='title'>{json_results}!</div>",
+              unsafe_allow_html=True)
   recommendations = json.loads(json_results)
   st.write(recommendations)
   # display_recommend(json_results)
