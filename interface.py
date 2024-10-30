@@ -3,10 +3,13 @@ import streamlit as st
 import base64
 import functions as func
 import json
-from openai import OpenAI
+# from openai import OpenAI
+import google.generativeai as gemini
 import random
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+# client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+client = gemini.configure(api_key=st.secrets['GOOGLE_API_KEY'])
+model = gemini.GenerativeModel("gemini-1.5-flash")
 
 
 def initialiser():
@@ -255,13 +258,20 @@ def get_ai_recommendations():
   recommendations = []
   for genre in random.sample(new_genres, 5):
     prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Include the artist name."
-    response = client.chat.completions.create(model='gpt-4',
-                                              messages=[{
-                                                  'role': 'user',
-                                                  'content': prompt
-                                              }],
-                                              max_tokens=50)
-    recommendation = response.choices[0].message.content.strip()
+    # response = client.chat.completions.create(model='gpt-4',
+    #                                           messages=[{
+    #                                               'role': 'user',
+    #                                               'content': prompt
+    #                                           }],
+    #                                           max_tokens=50)
+    # recommendation = response.choices[0].message.content.strip()
+    recommendation = model.generate_content(
+        prompt,
+        generation_config=gemini.types.GenerationConfig(
+            max_output_tokens=50,
+            temperature=1.3,
+            top_p=0.9,
+        ))
     recommendations.append((genre, recommendation))
 
   # Display recommendations
