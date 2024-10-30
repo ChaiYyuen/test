@@ -257,7 +257,7 @@ def get_ai_recommendations():
   # Use GPT to generate recommendations
   recommendations = []
   for genre in random.sample(new_genres, 5):
-    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Stated with song name, artist name, and why it is great. All in new line each."
+    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Generate output as below\nsong name: \nartist name: \nwhy it is great:"
     # response = client.chat.completions.create(model='gpt-4',
     #                                           messages=[{
     #                                               'role': 'user',
@@ -443,8 +443,7 @@ def get_song_recommendations():
 
 def recommend_by_tempo_and_sentiment(desired_TS):
   system_prompt = """
-  You are given a desired tempo and sentiment. Recommend at least 5 songs based on the given criteria.
-  The output should be in JSON format, like this:
+  You are given a desired tempo and sentiment. Recommend at least 5 songs based on the given criteria. The output should be in JSON format, as below:
   {
   "song": [
   {
