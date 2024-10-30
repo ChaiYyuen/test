@@ -272,7 +272,7 @@ def get_ai_recommendations():
             temperature=1.3,
             top_p=0.9,
         ))
-    recommendations.append((genre, recommendation))
+    recommendations.append((genre, recommendation.text))
 
   # Display recommendations
   for genre, recommendation in recommendations:
