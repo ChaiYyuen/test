@@ -438,7 +438,7 @@ def get_song_recommendations():
       f"Tempo: {desired_tempo}, Sentiment: {desired_sentiment}, Instrumentalness: {instrumentalness_select}, Acousticness: {acousticness_select}, Popularity: {popularity_select}, Key: {desired_key}"
   )
   json_results = recommend_by_tempo_and_sentiment(desired_TS)
-  display_recommend(recommendations)
+  display_recommend(json_results)
   # recommendations = json.loads(json_results)
   # display_recommend(recommendations)
 
