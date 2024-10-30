@@ -450,6 +450,7 @@ def get_song_recommendations():
 def recommend_by_tempo_and_sentiment(desired_TS):
   system_prompt = """
   You are given a desired tempo and sentiment. Recommend at least 5 songs based on the given criteria. The output should be in JSON format, as below:
+  '''
   {
   "song": [
   {
@@ -461,6 +462,7 @@ def recommend_by_tempo_and_sentiment(desired_TS):
   ...
   ]
   }
+  '''
   """
 
   # response = client.chat.completions.create(model='gpt-4o-mini',
