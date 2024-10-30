@@ -257,7 +257,7 @@ def get_ai_recommendations():
   # Use GPT to generate recommendations
   recommendations = []
   for genre in random.sample(new_genres, 5):
-    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Include the artist name."
+    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Stated with song name, artist name, and why it is great."
     # response = client.chat.completions.create(model='gpt-4',
     #                                           messages=[{
     #                                               'role': 'user',
@@ -503,16 +503,27 @@ def get_gpt_response(prompt):
   system_prompt = """
   You are profession in music. Answer to anything asked related to music and songs. You can also answer to easy greeting question. For example, hi, hello and how are you. Otherwise reply 'Sorry, I can't help you with that. Try ask something that related to music.
   """
-  response = client.chat.completions.create(model='gpt-4',
-                                            messages=[{
-                                                'role': 'system',
-                                                'content': system_prompt
-                                            }, {
-                                                'role': 'user',
-                                                'content': prompt
-                                            }],
-                                            max_tokens=150)
-  return response.choices[0].message.content
+  response_model = gemini.GenerativeModel("gemini-1.5-flash",
+                                          system_instruction=system_prompt)
+
+  response = response_model.generate_content(
+      prompt,
+      generation_config=gemini.types.GenerationConfig(
+          max_output_tokens=50,
+          temperature=1.3,
+          top_p=0.9,
+      ))
+  return response.text
+  # response = client.chat.completions.create(model='gpt-4',
+  #                                           messages=[{
+  #                                               'role': 'system',
+  #                                               'content': system_prompt
+  #                                           }, {
+  #                                               'role': 'user',
+  #                                               'content': prompt
+  #                                           }],
+  #                                           max_tokens=150)
+  # return response.choices[0].message.content
 
 
 def get_all_artist_genre():
