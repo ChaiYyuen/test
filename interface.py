@@ -439,6 +439,7 @@ def get_song_recommendations():
   )
   json_results = recommend_by_tempo_and_sentiment(desired_TS)
   st.write(json_results)
+  print(json_results)
   recommendations = json.loads(json_results)
   st.write(recommendations)
   # display_recommend(json_results)
