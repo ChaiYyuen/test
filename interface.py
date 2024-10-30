@@ -257,7 +257,7 @@ def get_ai_recommendations():
   # Use GPT to generate recommendations
   recommendations = []
   for genre in random.sample(new_genres, 5):
-    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Stated with song name, artist name, and why it is great."
+    prompt = f"Recommend a {genre} song that's not very well-known but is considered excellent by critics or genre enthusiasts. Stated with song name, artist name, and why it is great. All in new line each."
     # response = client.chat.completions.create(model='gpt-4',
     #                                           messages=[{
     #                                               'role': 'user',
@@ -268,7 +268,7 @@ def get_ai_recommendations():
     recommendation = model.generate_content(
         prompt,
         generation_config=gemini.types.GenerationConfig(
-            max_output_tokens=50,
+            max_output_tokens=200,
             temperature=1.3,
             top_p=0.9,
         ))
@@ -458,17 +458,26 @@ def recommend_by_tempo_and_sentiment(desired_TS):
   }
   """
 
-  response = client.chat.completions.create(model='gpt-4o-mini',
-                                            messages=[{
-                                                'role': 'system',
-                                                'content': system_prompt
-                                            }, {
-                                                'role': 'user',
-                                                'content': desired_TS
-                                            }],
-                                            max_tokens=2000)
+  # response = client.chat.completions.create(model='gpt-4o-mini',
+  #                                           messages=[{
+  #                                               'role': 'system',
+  #                                               'content': system_prompt
+  #                                           }, {
+  #                                               'role': 'user',
+  #                                               'content': desired_TS
+  #                                           }],
+  #                                           max_tokens=2000)
+  recommendation_model = gemini.GenerativeModel(
+      "gemini-1.5-flash", system_instruction=system_prompt)
+  response = recommendation_model.generate_content(
+      desired_TS,
+      generation_config=gemini.types.GenerationConfig(
+          max_output_tokens=2000,
+          temperature=1.3,
+          top_p=0.9,
+      ))
 
-  return response.choices[0].message.content
+  return response.text
 
 
 def chat_with_bot():
@@ -509,7 +518,7 @@ def get_gpt_response(prompt):
   response = response_model.generate_content(
       prompt,
       generation_config=gemini.types.GenerationConfig(
-          max_output_tokens=50,
+          max_output_tokens=150,
           temperature=1.3,
           top_p=0.9,
       ))
@@ -611,20 +620,31 @@ def analyze_genres():
 
     genre_json = json.dumps(genre_data)
 
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[{
-            "role": "system",
-            "content": system_prompt
-        }, {
-            "role": "user",
-            "content": f"Analyze this genre distribution: {genre_json}"
-        }],
-        temperature=0.7,
-        max_tokens=2000)
+    analysis_model = gemini.GenerativeModel("gemini-1.5-flash",
+                                            system_instruction=system_prompt)
 
-    # Correctly access the content of the message
-    return response.choices[0].message.content
+    response = analysis_model.generate_content(
+        f"Analyze this genre distribution: {genre_json}",
+        generation_config=gemini.types.GenerationConfig(
+            max_output_tokens=2000,
+            temperature=1.3,
+            top_p=0.9,
+        ))
+    return response.text
+    # response = client.chat.completions.create(
+    #     model="gpt-4",
+    #     messages=[{
+    #         "role": "system",
+    #         "content": system_prompt
+    #     }, {
+    #         "role": "user",
+    #         "content": f"Analyze this genre distribution: {genre_json}"
+    #     }],
+    #     temperature=0.7,
+    #     max_tokens=2000)
+
+    # # Correctly access the content of the message
+    # return response.choices[0].message.content
 
   # Get and display AI analysis
   st.subheader("AI Analysis of Genre Distribution")
